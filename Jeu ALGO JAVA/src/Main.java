@@ -1,8 +1,8 @@
-import Fonction.creationMatrice;
-import Fonction.affichageMatrice;
+import Fonction.cli;
+
 
 public class Main {
     public static void main(String[] args) {
-        affichageMatrice.affichageMatrice(creationMatrice.creationMatrice());
+        cli.menu();
     }
 }
