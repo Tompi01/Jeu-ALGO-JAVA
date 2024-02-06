@@ -3,6 +3,8 @@ package Fonction;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static Fonction.Jeu.jeu;
+
 public class cli {
     public static void menu() {
         // Efface la console pour une nouvelle interaction utilisateur
@@ -25,7 +27,7 @@ public class cli {
                 case 1:
                     // Option 1: Affiche "Jeu"
                     System.out.println("Jeu");
-                    affichageMatrice.affichageMatrice(creationMatrice.creationMatrice()); // fonction qui crée et affiche la matrice
+                    jeu();
                     break;
                 case 2:
                     // Option 2: Affiche les règles, puis attend pendant 5 secondes
