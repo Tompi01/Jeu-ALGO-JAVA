@@ -24,7 +24,8 @@ public class Matrice {
     }
 
     public static void ajouterJoueur(int[][] matrice, Joueur joueur) {
-        matrice[joueur.getPositionX()][joueur.getPositionY()] = 2; // On utilise 2 pour représenter la position du joueur
+        // Utiliser la valeur du joueur pour le représenter sur la matrice
+        matrice[joueur.getPositionX()][joueur.getPositionY()] = joueur.getId();
     }
 
     public static void affichageMatrice(int[][] matrix) {
@@ -47,8 +48,8 @@ public class Matrice {
                         System.out.print("# | ");
                     }
                     // Si c'est un joueur
-                } else if (matrix[colonne][ligne] == 2) { // 2 est la valeur égale à un joueur dans notre matrice
-                    System.out.print("X | "); // Affiche X pour les positions des joueurs
+                } else if (matrix[colonne][ligne] >= 2) { // 2 est la valeur égale à un joueur dans notre matrice
+                    System.out.print(matrix[colonne][ligne] + " | "); // Affiche X pour les positions des joueurs
                 } else {
                     // Affiche . pour les cases sans joueur
                     System.out.print(". | ");

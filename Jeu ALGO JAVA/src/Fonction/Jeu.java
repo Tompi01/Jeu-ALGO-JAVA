@@ -1,29 +1,46 @@
 package Fonction;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Jeu {
     public static void jeu() {
         // Appeler la création de la matrice depuis la classe Matrice
         int[][] matrice = Matrice.creationMatrice();
 
-        // Créer deux joueurs
-        Joueur joueur1 = new Joueur(6, 4); // Position initiale du joueur 1
-        Joueur joueur2 = new Joueur(6, 6); // Position initiale du joueur 2
+        int nombreJoueur = 2;
+
+        // Liste pour stocker les joueurs
+        List<Joueur> joueurs = new ArrayList<>();
+
+        // Créer le nombre de joueurs en conséquence
+        for (int i = 2; i <= nombreJoueur+1; i++) {
+            int positionX, positionY;
+
+            // Définir  les positions des joueurs
+            if (i == 2) {
+                positionX = 6;
+                positionY = 4;
+            } else {
+                positionX = 6;
+                positionY = 6;
+            }
+            Joueur joueur = new Joueur(positionX, positionY, i); // Position initiale du joueur
+            joueurs.add(joueur); // Ajouter le joueur à la liste
+        }
 
         // Ajouter les joueurs à la matrice
-        Matrice.ajouterJoueur(matrice, joueur1);
-        Matrice.ajouterJoueur(matrice, joueur2);
+        for (Joueur joueur : joueurs) {
+            Matrice.ajouterJoueur(matrice, joueur);
+        }
 
         // Choisir aléatoirement le joueur qui commence
         Random random = new Random();
-        boolean joueur1Commence = random.nextBoolean();
+        int joueurCommenceIndex = random.nextInt(joueurs.size());
+        Joueur joueurCommence = joueurs.get(joueurCommenceIndex);
 
-        // Afficher le message du joueur qui commence
-        if (joueur1Commence) {
-            System.out.println("Le joueur 1 commence !");
-        } else {
-            System.out.println("Le joueur 2 commence !");
-        }
+        // Afficher le joueur qui commence
+        System.out.println("Le joueur " + joueurCommence.getId() + " commence !");
 
         // Afficher la matrice avec les joueurs depuis la classe AffichageMatrice
         Matrice.affichageMatrice(matrice);

@@ -3,11 +3,13 @@ package Fonction;
 public class Joueur {
     private int positionX;
     private int positionY;
+    private int id;
 
     // Constructeur de la classe Joueur
-    public Joueur(int positionX, int positionY) {
+    public Joueur(int positionX, int positionY, int id) {
         this.positionX = positionX;
         this.positionY = positionY;
+        this.id = id;
     }
 
     // Getter de la position X du joueur
@@ -25,4 +27,12 @@ public class Joueur {
         this.positionX = newX;
         this.positionY = newY;
     }
+
+    // Getter de l'id du joueur
+    public int getId() {
+        return id;
+    }
+
+
+
 }
