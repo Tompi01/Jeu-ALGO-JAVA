@@ -25,7 +25,7 @@ public class Jeu {
                 positionX = 6;
                 positionY = 6;
             }
-            Joueur joueur = new Joueur(positionX, positionY, i); // Position initiale du joueur
+            Joueur joueur = new Joueur(positionX, positionY, i); // création d'un joueur
             joueurs.add(joueur); // Ajouter le joueur à la liste
         }
 
