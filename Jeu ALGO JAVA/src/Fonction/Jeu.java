@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Jeu {
-    public static void jeu() {
+    public static void initialisationJeu() {
         // Appeler la création de la matrice depuis la classe Matrice
         int[][] matrice = Matrice.creationMatrice();
 
@@ -14,18 +14,18 @@ public class Jeu {
         List<Joueur> joueurs = new ArrayList<>();
 
         // Créer le nombre de joueurs en conséquence
-        for (int i = 2; i <= nombreJoueur+1; i++) {
+        for (int id = 2; id <= nombreJoueur+1; id++) {
             int positionX, positionY;
 
             // Définir  les positions des joueurs
-            if (i == 2) {
+            if (id == 2) {
                 positionX = 6;
-                positionY = 4;
+                positionY = 5;
             } else {
                 positionX = 6;
                 positionY = 6;
             }
-            Joueur joueur = new Joueur(positionX, positionY, i); // création d'un joueur
+            Joueur joueur = new Joueur(positionX, positionY, id); // création d'un joueur
             joueurs.add(joueur); // Ajouter le joueur à la liste
         }
 
@@ -40,9 +40,21 @@ public class Jeu {
         Joueur joueurCommence = joueurs.get(joueurCommenceIndex);
 
         // Afficher le joueur qui commence
-        System.out.println("Le joueur " + joueurCommence.getId() + " commence !");
+        System.out.println("Le joueur " + (joueurCommence.getId()-1) + " commence !");
 
+        boolean partieEnCours = true;
         // Afficher la matrice avec les joueurs depuis la classe AffichageMatrice
+        while(partieEnCours){
+            Matrice.affichageMatrice(matrice);
+            // fonction deplacement
+            Matrice.affichageMatrice(matrice);
+            DestructionCase.destructionCase(matrice);
+            // Conditions de fin
+            if(joueurs.size() == 1){ // Si un seul joueur restant
+                partieEnCours = false;
+            }
+        }
         Matrice.affichageMatrice(matrice);
+
     }
 }

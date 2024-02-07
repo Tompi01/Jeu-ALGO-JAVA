@@ -49,7 +49,7 @@ public class Matrice {
                     }
                     // Si c'est un joueur
                 } else if (matrix[colonne][ligne] >= 2) { // 2 est la valeur égale à un joueur dans notre matrice
-                    System.out.print(matrix[colonne][ligne] + " | "); // Affiche X pour les positions des joueurs
+                    System.out.print((matrix[colonne][ligne]- 1) + " | "); // Affiche l'id pour les positions des joueurs
                 } else {
                     // Affiche . pour les cases sans joueur
                     System.out.print(". | ");
@@ -57,7 +57,7 @@ public class Matrice {
             }
             // Afficher le numéro de la ligne
             if (ligne != 0 && ligne != matrix.length - 2) {
-                System.out.println("  " + (ligne + 1));
+                System.out.println("  " + (ligne));
             } else {
                 System.out.println();
             }

@@ -3,7 +3,7 @@ package Fonction;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static Fonction.Jeu.jeu;
+import static Fonction.Jeu.initialisationJeu;
 
 public class cli {
     public static void menu() {
@@ -27,7 +27,7 @@ public class cli {
                 case 1:
                     // Option 1: Affiche "Jeu"
                     System.out.println("Jeu");
-                    jeu();
+                    initialisationJeu();
                     break;
                 case 2:
                     // Option 2: Affiche les règles, puis attend pendant 5 secondes
@@ -64,6 +64,7 @@ public class cli {
                     menu(); // Appelle la fonction menu
                     break;
             }
+            scanner.close();
         } catch (InputMismatchException e) {
             // Gère l'exception si l'utilisateur entre une valeur non entière
             System.out.println("Rentrez un CHIFFRE entier en 1 et 4");
