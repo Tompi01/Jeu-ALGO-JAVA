@@ -32,6 +32,7 @@ public class DestructionCase {
                 // Vérification si la case est libre
                 if (matrice[colonne][ligne] != 0) {
                     System.out.println("Veuillez détruire une case libre.");
+                    destructionCase(matrice);
                 } else {
                     // Destruction de la case dans la matrice
                     matrice[colonne][ligne] = 1;
@@ -39,10 +40,12 @@ public class DestructionCase {
             } else {
                 // Affichage d'un message d'erreur si le format de saisie est incorrect
                 System.out.println("Format d'entrée incorrect. La lettre doit être entre A et K, et le chiffre entre 1 et 10.");
+                destructionCase(matrice);
             }
         } catch (Exception e) {
             // Gestion des erreurs de saisie
             System.out.println("Erreur de saisie.");
+            destructionCase(matrice);
         }
     }
 

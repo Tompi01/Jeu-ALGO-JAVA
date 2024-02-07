@@ -1,5 +1,4 @@
 package Fonction;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 

@@ -80,34 +80,44 @@ public class Jeu {
         System.out.println("Le joueur" + (listeJoueurs.get(0).getId() - 1) + " à gagné");
     }
 
-    public static void boucleJeu(int[][] matrice, Joueur joueurCommence) {
+    public static void boucleJeu(int[][] matrice, Joueur joueur) {
+
+        int indexEnTrainDeJouer;
 
         // boucle de jeu
         while (true) {
+            indexEnTrainDeJouer = listeJoueurs.indexOf(joueur);
             // On créer une copie de la liste des joueurs pour éviter l'erreur 'ConcurrentModificationException'
             List<Joueur> copieListeJoueurs = new ArrayList<>(listeJoueurs);
 
             // On update la liste des joueurs en vie
-            for (Joueur joueur : copieListeJoueurs) {
-                joueurEstMort(matrice,joueur);
+            for (Joueur joueurDansListe : copieListeJoueurs) {
+                joueurEstMort(matrice,joueurDansListe);
             }
             // Conditions de fin
             if (listeJoueurs.size() == 1) { // Si un seul joueur restant
                 break;
             }
-            //Matrice.affichageMatrice(matrice);
-            // fonction deplacement
 
-            if (listeJoueurs.size() == 1) { // Si un seul joueur restant
-                break;
-            }
             Matrice.affichageMatrice(matrice);
+            
+            deplacement.deplacementDuJoueur(joueur, matrice);
+
+            Matrice.affichageMatrice(matrice);
+
             DestructionCase.destructionCase(matrice);
+
+            //changement de joueur en cours
+            if (indexEnTrainDeJouer == listeJoueurs.size()-1) {
+                joueur = listeJoueurs.get(0);
+            }
+            else {
+                joueur = listeJoueurs.get(indexEnTrainDeJouer+1);
+            }
             // Conditions de fin
             if (listeJoueurs.size() == 1) { // Si un seul joueur restant
                 break;
             }
-
         }
         Matrice.affichageMatrice(matrice);
         System.out.println("FIN DE LA PARTIE");
