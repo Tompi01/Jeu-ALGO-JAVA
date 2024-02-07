@@ -5,8 +5,6 @@ import java.util.List;
 
 public class Jeu {
 
-    static boolean partieEnCours = true;
-
     // Liste pour stocker les joueurs
     static List<Joueur> listeJoueurs = new ArrayList<>();
 
@@ -48,30 +46,45 @@ public class Jeu {
         Joueur joueurCommence = listeJoueurs.get(joueurCommenceIndex);
 
         // Afficher le joueur qui commence
-        System.out.println("Le joueur " + joueurCommence.getId() + " commence !");
+        System.out.println("Le joueur " + (joueurCommence.getId()-1) + " commence !");
 
         // On appelle la fonction boucle de jeu
-        boucleJeu(matrice, listeJoueurs);
+        boucleJeu(matrice, joueurCommence);
 
-        // Afficher le joueur qui commence
-        System.out.println("Le joueur " + (joueurCommence.getId() - 1) + " commence !");
+        System.out.println("Le joueur" + (listeJoueurs.get(0).getId() - 1) + " à gagné");
     }
 
-    public static void boucleJeu(int[][] matrice, List<Joueur> listeJoueurs) {
+    public static void boucleJeu(int[][] matrice, Joueur joueurCommence) {
 
         // boucle de jeu
-        while (partieEnCours) {
-            Matrice.affichageMatrice(matrice);
+        while (true) {
+            // On créer une copie de la liste des joueurs pour éviter l'erreur 'ConcurrentModificationException'
+            List<Joueur> copieListeJoueurs = new ArrayList<>(listeJoueurs);
+
+            // On update la liste des joueurs en vie
+            for (Joueur joueur : copieListeJoueurs) {
+                joueurEstMort(matrice,joueur);
+            }
+            // Conditions de fin
+            if (listeJoueurs.size() == 1) { // Si un seul joueur restant
+                break;
+            }
+            //Matrice.affichageMatrice(matrice);
             // fonction deplacement
+
+            if (listeJoueurs.size() == 1) { // Si un seul joueur restant
+                break;
+            }
             Matrice.affichageMatrice(matrice);
             DestructionCase.destructionCase(matrice);
             // Conditions de fin
             if (listeJoueurs.size() == 1) { // Si un seul joueur restant
-                partieEnCours = false;
+                break;
             }
 
         }
         Matrice.affichageMatrice(matrice);
+        System.out.println("FIN DE LA PARTIE");
     }
 
     public static void joueurEstMort(int[][] matrice, Joueur joueur) {
@@ -85,8 +98,7 @@ public class Jeu {
 
         if (caseDroite != 0 && caseGauche != 0 && caseBas != 0 && caseHaut != 0) {
             listeJoueurs.remove(joueur);
-            System.out.println(joueur.getId() + "est dead");
+            System.out.println("Le joueur " + (joueur.getId()-1) + " est dead");
         }
-
     }
 }

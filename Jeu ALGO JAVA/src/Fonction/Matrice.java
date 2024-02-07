@@ -57,7 +57,7 @@ public class Matrice {
             }
             // Afficher le numéro de la ligne
             if (ligne != 0 && ligne != matrix.length - 2) {
-                System.out.println("  " + (ligne + 1));
+                System.out.println("  " + (ligne));
             } else {
                 System.out.println();
             }
