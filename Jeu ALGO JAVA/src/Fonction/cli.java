@@ -36,7 +36,8 @@ public class cli {
                             "Le dernier joueur pouvant encore se déplacer gagne.\n" +
                             "Contraintes :\n" +
                             "- Un joueur ne peut pas détruire une case occupée.\n" +
-                            "- Un joueur ne peut pas occuper une case détruite ou une case déjà occupée.\n" +"- Un joueur bloqué pendant un tour est déclaré perdant.");
+                            "- Un joueur ne peut pas occuper une case détruite ou une case déjà occupée.\n" +"- Un joueur bloqué pendant un tour est déclaré perdant.\n" +
+                            "- Commande : Z - Haut | S - Bas | Q - Gauche | D - Droit");
                     try {
                         Thread.sleep(2000); // Attendre pendant 2 secondes
                     } catch (InterruptedException e) {

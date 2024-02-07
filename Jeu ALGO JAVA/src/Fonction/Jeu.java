@@ -37,25 +37,28 @@ public class Jeu {
         // Choisir aléatoirement le joueur qui commence
         Random random = new Random();
         int joueurCommenceIndex = random.nextInt(joueurs.size());
-        Joueur joueurCommence = joueurs.get(joueurCommenceIndex);
 
         // Afficher le joueur qui commence
-        System.out.println("Le joueur " + (joueurCommence.getId()-1) + " commence !");
+        System.out.println("Le joueur " + (joueurCommenceIndex+1) + " commence !");
 
         boolean partieEnCours = true;
-
+        Matrice.affichageMatrice(matrice);
         // boucle de jeu
         while(partieEnCours){
-            Matrice.affichageMatrice(matrice);
-            // fonction deplacement
-            Matrice.affichageMatrice(matrice);
-            DestructionCase.destructionCase(matrice);
+            deplacement.deplacementDuJoueur(joueurs.get(joueurCommenceIndex), matrice);
+            // DestructionCase.destructionCase(matrice);
+            //changement de joueur en cours
+            joueurCommenceIndex ++;
+            if (joueurCommenceIndex==joueurs.size()) {
+                joueurCommenceIndex = 0;
+            }
             // Conditions de fin
             if(joueurs.size() == 1){ // Si un seul joueur restant
                 partieEnCours = false;
             }
         }
         Matrice.affichageMatrice(matrice);
+        System.out.println("félicitation le joueur " + joueurs.get(0) + " à gagner");
 
     }
 }
