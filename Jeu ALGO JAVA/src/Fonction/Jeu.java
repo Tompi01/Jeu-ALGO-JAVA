@@ -43,7 +43,8 @@ public class Jeu {
         System.out.println("Le joueur " + (joueurCommence.getId()-1) + " commence !");
 
         boolean partieEnCours = true;
-        // Afficher la matrice avec les joueurs depuis la classe AffichageMatrice
+
+        // boucle de jeu
         while(partieEnCours){
             Matrice.affichageMatrice(matrice);
             // fonction deplacement
