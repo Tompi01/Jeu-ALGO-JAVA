@@ -25,8 +25,7 @@ public class cli {
             // Utilise une instruction switch pour traiter différentes options du menu
             switch (response) {
                 case 1:
-                    // Option 1: Affiche "Jeu"
-                    System.out.println("Jeu");
+                    // Option 1: le joueur lance le jeu
                     initialisationJeu();
                     break;
                 case 2:
