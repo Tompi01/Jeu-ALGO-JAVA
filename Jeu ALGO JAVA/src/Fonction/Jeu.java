@@ -2,6 +2,7 @@ package Fonction;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Jeu {
 
@@ -16,10 +17,32 @@ public class Jeu {
 
         // Liste pour stocker les joueurs
         List<Joueur> joueurs = new ArrayList<>();
+        // Liste pour stocker les pseudos déjà saisis
+        ArrayList<String> pseudos = new ArrayList<>();
 
         // Créer le nombre de joueurs en conséquence
         for (int id = 2; id <= nombreJoueur + 1; id++) {
             int positionX, positionY;
+            String pseudo;
+            Scanner entreePseudo = new Scanner(System.in);
+
+            // Boucle do-while pour demander le pseudo jusqu'à ce qu'il soit valide
+            do {
+                // Demande le pseudo du joueur
+                System.out.println("Entre le pseudo du joueur " + (id - 1));
+                pseudo = entreePseudo.nextLine();
+
+                // Vérifie la longueur du pseudo
+                if (pseudo.length() < 2 || pseudo.length() > 10) {
+                    System.out.println("Votre pseudo doit contenir entre 2 et 10 caractères.");
+                } else if (pseudos.contains(pseudo)) {
+                    // Vérifie si le pseudo est déjà pris
+                    System.out.println("Ce pseudo est déjà utilisé. Veuillez choisir un pseudo unique.");
+                }
+            } while (pseudo.length() < 2 || pseudo.length() > 10 || pseudos.contains(pseudo));
+
+            // Ajoute le pseudo à la liste des pseudos
+            pseudos.add(pseudo);
 
             // Définir  les positions des joueurs
             if (id == 2) {
@@ -30,8 +53,11 @@ public class Jeu {
                 positionX = 6;
                 positionY = 6;
             }
-            Joueur joueur = new Joueur(positionX, positionY, id); // création d'un joueur
-            listeJoueurs.add(joueur); // Ajouter le joueur à la liste
+            // Création du joueur
+            Joueur joueur = new Joueur(positionX, positionY, id, pseudo);
+
+            // Ajout du joueur dans une liste contenant tout les joueurs
+            listeJoueurs.add(joueur);
         }
 
 
@@ -46,7 +72,7 @@ public class Jeu {
         Joueur joueurCommence = listeJoueurs.get(joueurCommenceIndex);
 
         // Afficher le joueur qui commence
-        System.out.println("Le joueur " + (joueurCommence.getId()-1) + " commence !");
+        System.out.println((joueurCommence.getPseudo()) + " (" + (joueurCommence.getId()-1) + ")" +" commence !");
 
         // On appelle la fonction boucle de jeu
         boucleJeu(matrice, joueurCommence);

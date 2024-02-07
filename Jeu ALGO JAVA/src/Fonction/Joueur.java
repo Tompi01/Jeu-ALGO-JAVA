@@ -4,12 +4,14 @@ public class Joueur {
     private int positionX;
     private int positionY;
     private int id;
+    private String pseudo;
 
     // Constructeur de la classe Joueur
-    public Joueur(int positionX, int positionY, int id) {
+    public Joueur(int positionX, int positionY, int id, String pseudo) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.id = id;
+        this.pseudo = pseudo;
     }
 
     // Getter de la position X du joueur
@@ -33,6 +35,13 @@ public class Joueur {
         return id;
     }
 
+    // Getter du pseudo du joueur
+    public String getPseudo() {
+        return pseudo;
+    }
 
-
+    // Setter du pseudo du joueur
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
 }
