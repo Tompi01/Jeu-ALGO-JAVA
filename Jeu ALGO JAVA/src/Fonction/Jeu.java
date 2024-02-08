@@ -1,20 +1,17 @@
 package Fonction;
+
 import Fonction.Save.EnregistreurResultats;
 import Fonction.Save.Resultat;
-import Fonction.gestionScore.*;
 
-import java.util.Random;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import static Fonction.cli.menu;
+import static Fonction.cli.*;
 import static Fonction.gestionScore.scoresGestion;
 
+/**
+ * Classe gérant la logique du jeu.
+ */
 public class Jeu {
-
 
     // Méthode pour mettre à jour les scores à la fin de chaque partie
     public static void scoresAPartirSauvegarde(String joueurCourant, int nbPoints) {
@@ -23,10 +20,14 @@ public class Jeu {
         // Incrémente le score des autres joueurs
         for (String joueur : scoresGestion.keySet()) {
             if (!joueur.equals(joueurCourant)) {
-                scoresGestion.put(joueur, scoresGestion.getOrDefault(joueur, 0) +nbPoints);
+                scoresGestion.put(joueur, scoresGestion.getOrDefault(joueur, 0) + nbPoints);
             }
         }
     }
+
+    /**
+     * Affiche le menu à la fin de la partie.
+     */
     public static void afficherMenuFinPartie() {
         System.out.println("\nQue souhaitez-vous faire ?");
         System.out.println("1 - Rejouer une partie");
@@ -38,82 +39,90 @@ public class Jeu {
     // Liste pour stocker les joueurs
     static List<Joueur> listeJoueurs = new ArrayList<>();
 
-
+    /**
+     * Initialise le jeu.
+     */
     public static void initialisationJeu() {
-        // Appeler la création de la matrice depuis la classe Matrice
+        effacerConsole();
         int[][] matrice = Matrice.creationMatrice();
 
         Joueur.genererJoueurs(listeJoueurs);
 
-        // Ajouter les joueurs à la matrice
         for (Joueur joueur : listeJoueurs) {
             Matrice.ajouterJoueur(matrice, joueur);
         }
 
-        // Choisir aléatoirement le joueur qui commence
         Random random = new Random();
         int joueurCommenceIndex = random.nextInt(listeJoueurs.size());
         Joueur joueurCommence = listeJoueurs.get(joueurCommenceIndex);
 
-        // Afficher le joueur qui commence
         System.out.println((joueurCommence.getPseudo()) + " (" + (joueurCommence.getId()-1) + ")" +" commence !");
 
-        // On appelle la fonction boucle de jeu
         boucleJeu(matrice, joueurCommence);
 
-        System.out.println(listeJoueurs.get(0).getPseudo() + " à gagné");
+        // On affiche le vainqueur de la forme "Pseudo (id) à gagné"
+        System.out.println(listeJoueurs.get(0).getPseudo() + " (" + (listeJoueurs.get(0).getId()-1) + ")" +" à gagné");
         gestionScore.mettreAJourScores(listeJoueurs.get(0).getPseudo(), true);
 
-        listeJoueurs.get(0).incrementerScore(5);
-        listeJoueurs.clear(); // On vide la liste des Joueurs en prévision d'un prochaine partie
+        listeJoueurs.clear(); // On vide la liste des Joueurs en prévision d'une prochaine partie
 
-        System.out.println(gestionScore.scoresGestion);
         afficherMenuFinPartie();
 
-        Scanner scanner = new Scanner(System.in);
-        int finPartieResponse = scanner.nextInt();
-        switch (finPartieResponse) {
-            case 1:
-                initialisationJeu(); // Rejouer une partie
-                break;
-            case 2:
-                cli.scores(); // Voir les scores
-                menu(); // Revenir au menu principal
-                break;
-            case 3:
-                // À la fin de la partie
-                List<Resultat> resultatsPartie = new ArrayList<>();
+        Scanner choixFinPartieEntree = new Scanner(System.in);
+        try {
+            int finPartieResponse = choixFinPartieEntree.nextInt();
+            switch (finPartieResponse) {
+                case 1:
+                    initialisationJeu(); // Rejouer une partie
+                    break;
+                case 2:
+                    scores(); // Voir les scores
+                    menu(); // Revenir au menu principal
+                    break;
+                case 3:
+                    // À la fin de la partie
+                    List<Resultat> resultatsPartie = new ArrayList<>();
 
-                // Ajoutez les résultats de chaque joueur à la liste
-                for (Joueur joueur : listeJoueurs) {
-                    Resultat resultatJoueur = new Resultat(joueur.getPseudo(), joueur.getScore());
-                    resultatsPartie.add(resultatJoueur);
-                }
+                    // Ajoutez les résultats de chaque joueur à la liste
+                    for (Joueur joueur : listeJoueurs) {
+                        Resultat resultatJoueur = new Resultat(joueur.getPseudo(), joueur.getScore());
+                        resultatsPartie.add(resultatJoueur);
+                    }
 
-                // Enregistrez les résultats dans un fichier
-                EnregistreurResultats.enregistrerResultats(resultatsPartie, "resultats_partie.txt");
-                menu();
-                break;
-            case 4:
-                menu(); // Revenir au menu principal
-                break;
-            default:
-                System.out.println("Option invalide");
-                break;
+                    // Enregistrez les résultats dans un fichier
+                    EnregistreurResultats.enregistrerResultats(resultatsPartie, "resultats_partie.txt");
+                    menu();
+                    break;
+                case 4:
+                    menu(); // Revenir au menu principal
+                    break;
+                default:
+                    System.out.println("Option invalide");
+                    break;
+            }
+        } catch (InputMismatchException e) {
+            cli.gestionErreur("Rentrez un CHIFFRE entier en 1 et 5", 1000);
+        } finally {
+            choixFinPartieEntree.close();
         }
-
     }
 
+    /**
+     * Gère la boucle principale du jeu.
+     *
+     * @param matrice Matrice du jeu.
+     * @param joueur Joueur actuel.
+     */
     public static void boucleJeu(int[][] matrice, Joueur joueur) {
-
         int indexEnTrainDeJouer;
-        // boucle de jeu
+
+        // Boucle de jeu
         while (true) {
             indexEnTrainDeJouer = listeJoueurs.indexOf(joueur);
-            // On créer une copie de la liste des joueurs pour éviter l'erreur 'ConcurrentModificationException'
+            // on créé une copie la liste des joueurs pour eviter l'erreur 'ConcurrentModificationException'
             List<Joueur> copieListeJoueurs = new ArrayList<>(listeJoueurs);
 
-            // On update la liste des joueurs en vie
+            // Mise à jour de la liste des joueurs en vie
             for (Joueur joueurDansListe : copieListeJoueurs) {
                 joueurEstMort(matrice,joueurDansListe);
             }
@@ -123,29 +132,32 @@ public class Jeu {
             }
 
             Matrice.affichageMatrice(matrice);
-            
+
             deplacement.deplacementDuJoueur(joueur, matrice);
 
             Matrice.affichageMatrice(matrice);
 
             DestructionCase.destructionCase(matrice);
 
-            //changement de joueur en cours
+            // Changement de joueur en cours
             if (indexEnTrainDeJouer == listeJoueurs.size()-1) {
                 joueur = listeJoueurs.get(0);
             }
             else {
                 joueur = listeJoueurs.get(indexEnTrainDeJouer+1);
             }
-            // Conditions de fin
-            if (listeJoueurs.size() == 1) { // Si un seul joueur restant
-                break;
-            }
         }
+
         Matrice.affichageMatrice(matrice);
-        System.out.println("FIN DE LA PARTIE");
+        System.out.println("Partie terminée");
     }
 
+    /**
+     * Vérifie si un joueur est mort et le supprime de la liste s'il est mort.
+     *
+     * @param matrice Matrice du jeu.
+     * @param joueur Joueur à vérifier.
+     */
     public static void joueurEstMort(int[][] matrice, Joueur joueur) {
         int positionX = joueur.getPositionX();
         int positionY = joueur.getPositionY();
@@ -158,7 +170,7 @@ public class Jeu {
         if (caseDroite != 0 && caseGauche != 0 && caseBas != 0 && caseHaut != 0) {
             listeJoueurs.remove(joueur);
             gestionScore.mettreAJourScores(joueur.getPseudo(), false);
-            System.out.println(joueur.getPseudo() + " est dead");
+            System.out.println(joueur.getPseudo() + " ("+ (joueur.getId()-1) +")" + " est mort");
         }
     }
 }
