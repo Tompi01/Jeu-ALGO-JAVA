@@ -1,4 +1,7 @@
 package Fonction;
+import Fonction.Save.EnregistreurResultats;
+import Fonction.Save.Resultat;
+
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +39,8 @@ public class Jeu {
         System.out.println("\nQue souhaitez-vous faire ?");
         System.out.println("1 - Rejouer une partie");
         System.out.println("2 - Voir le tableau des scores");
-        System.out.println("3 - Revenir au menu principal");
+        System.out.println("3 - Sauvegarder");
+        System.out.println("4 - Revenir au menu principal");
     }
 
     // Liste pour stocker les joueurs
@@ -113,6 +117,7 @@ public class Jeu {
         System.out.println("Le joueur" + (listeJoueurs.get(0).getId() - 1) + " à gagné");
 
         mettreAJourScores(listeJoueurs.get(0).getPseudo());
+        listeJoueurs.get(0).incrementerScore(5);
 
         afficherMenuFinPartie();
         Scanner scanner = new Scanner(System.in);
@@ -126,6 +131,20 @@ public class Jeu {
                 menu(); // Revenir au menu principal
                 break;
             case 3:
+                // À la fin de la partie
+                List<Resultat> resultatsPartie = new ArrayList<>();
+
+                // Ajoutez les résultats de chaque joueur à la liste
+                for (Joueur joueur : listeJoueurs) {
+                    Resultat resultatJoueur = new Resultat(joueur.getPseudo(), joueur.getScore());
+                    resultatsPartie.add(resultatJoueur);
+                }
+
+                // Enregistrez les résultats dans un fichier
+                EnregistreurResultats.enregistrerResultats(resultatsPartie, "resultats_partie.ser");
+                menu();
+                break;
+            case 4:
                 menu(); // Revenir au menu principal
                 break;
             default:

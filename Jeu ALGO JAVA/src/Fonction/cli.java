@@ -1,5 +1,9 @@
 package Fonction;
+import Fonction.Save.ChargeurResultats;
+import Fonction.Save.Resultat;
+
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import static Fonction.Jeu.initialisationJeu;
@@ -15,7 +19,7 @@ public class cli {
 
         // Affiche le message de bienvenue et le menu
         System.out.println("\n    BIENVENUE SUR CHESS DESTRUCT\r\n\n");
-        System.out.println("1 - Commencer une partie    \n2 - Règles  \n3 - Scores   \n4 - Quitter\r\n");
+        System.out.println("1 - Commencer une partie    \n2 - Règles  \n3 - Scores   \n4 - Charger une sauvegarde4 \n5 - Quitter\r\n");
 
         try {
             // Lit le choix de l'utilisateur pour le menu
@@ -44,9 +48,7 @@ public class cli {
                     break;
                 case 3:
                     // Option 3: Affiche "Scores" à tout moment
-                    System.out.println("Scores");
                     Jeu.afficherScores();
-                    Jeu.afficherMenuFinPartie();
 
                     // Attendre l'entrée de l'utilisateur pour le menu de fin de partie
                     int finPartieResponse = scanner.nextInt();
@@ -69,6 +71,18 @@ public class cli {
                     }
                     break;
                 case 4:
+                    // Chargez les résultats depuis un fichier
+                    List<Resultat> resultatsCharges = ChargeurResultats.chargerResultats("resultats_partie.ser");
+                    // Ne pas oublier de gérer les cas d'erreur de chargement si le fichier n'existe pas
+                    if (resultatsCharges != null) {
+                        System.out.println("Les résultats ont été chargés depuis le fichier.");
+                        // Revenir au menu principal
+                        menu();
+                        break;
+                    }
+                    break;
+
+                case 5:
                     // Option 4: Affiche "Quitter" et quitte le programme
                     System.out.println("Quitter");
                     System.exit(0);

@@ -6,6 +6,16 @@ public class Joueur {
     private int id;
     private String pseudo;
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    private int score;
+
     // Constructeur de la classe Joueur
     public Joueur(int positionX, int positionY, int id, String pseudo) {
         this.positionX = positionX;
@@ -43,5 +53,9 @@ public class Joueur {
     // Setter du pseudo du joueur
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
+    }
+
+    public void incrementerScore(int points){
+        score += points;
     }
 }
