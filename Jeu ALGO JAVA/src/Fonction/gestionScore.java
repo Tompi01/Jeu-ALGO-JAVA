@@ -1,4 +1,5 @@
 package Fonction;
+
 import java.util.*;
 
 /**
@@ -32,7 +33,7 @@ public class gestionScore {
      */
     public static List<Map.Entry<String, Integer>> triInsertionScoreInverse(HashMap<String, Integer> scores) {
         List<Map.Entry<String, Integer>> listScores = new ArrayList<>(scores.entrySet());
-        // On récupèere la taille du tableau
+        // On récupère la taille du tableau
         int taille = listScores.size();
 
         // Boucle à travers chaque élément du tableau à partir du deuxième élément
@@ -58,7 +59,7 @@ public class gestionScore {
      */
     public static List<Map.Entry<String, Integer>> triInsertionScore(HashMap<String, Integer> scores) {
         List<Map.Entry<String, Integer>> listScores = new ArrayList<>(scores.entrySet());
-        // On récupèere la taille du tableau
+        // On récupère la taille du tableau
         int taille = listScores.size();
 
         // Boucle à travers chaque élément du tableau à partir du deuxième élément
@@ -104,23 +105,6 @@ public class gestionScore {
         }
 
         // Propose des options pour l'utilisateur
-        System.out.println("\n1 - Autre tri \n2 - Menu principal");
-        Scanner choixEntree = new Scanner(System.in);
-        int choix = choixEntree.nextInt();
-
-        try {
-            switch (choix) {
-                case 1:
-                    cli.scores();
-                    break;
-                case 2:
-                    cli.menu();
-                    break;
-                default:
-                    System.out.println("Option invalide. Veuillez choisir une option valide.");
-            }
-        } catch (InputMismatchException e) {
-            cli.gestionErreur("Rentrez un CHIFFRE entier en 1 et 5", 1000);
-        }
+        Fonction.cli.afficherOptions(tri);
     }
 }

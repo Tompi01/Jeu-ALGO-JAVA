@@ -1,4 +1,7 @@
 package Fonction;
+
+import static Fonction.cli.effacerConsole;
+
 /**
  * Classe représentant la matrice du jeu.
  */
@@ -48,6 +51,7 @@ public class Matrice {
      * @param matrice Matrice du plateau de jeu.
      */
     public static void affichageMatrice(int[][] matrice) {
+        effacerConsole();
         // Parcourir les lignes de la matrice
         for (int ligne = 0; ligne < matrice[0].length; ligne++) {
             // Parcourir les colonnes de la matrice

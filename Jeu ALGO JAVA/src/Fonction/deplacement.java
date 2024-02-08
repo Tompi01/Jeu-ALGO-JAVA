@@ -19,7 +19,7 @@ public class deplacement{
             int positionLJoueur=joueur.getPositionX(); // stock x et y en ligne et colonne
             int positionCJoueur = joueur.getPositionY();
             System.out.println("Tour de " + joueur.getPseudo() + " (" + (joueur.getId()-1) + ")" );
-            System.out.println("    Z\nQ | S | D ");
+            System.out.println("             Z\nTouches : Q  +  D\n             S ");
             String response = scanner.nextLine().toUpperCase(); // mettre la réponse du joueur en majuscule
             switch (response) {
                 case "Z": // déplacement du joueur en haut

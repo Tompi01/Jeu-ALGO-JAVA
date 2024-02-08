@@ -119,10 +119,8 @@ public class Joueur {
     public static void genererJoueurs(List<Joueur> listeJoueurs) {
         // On demande le nombre de joueurs avec une boucle do-while
         int nombreJoueurs;
-        Scanner nombreJoueursEntree = new Scanner(System.in);
         do {
-            System.out.println("Entrez le nombre de joueurs (Entre 2 et 4)");
-            nombreJoueurs = nombreJoueursEntree.nextInt();
+            nombreJoueurs = cli.lireEntier("Entrez le nombre de joueurs (Entre 2 et 4): ");
             if (nombreJoueurs < 2 || nombreJoueurs > 4) {
                 System.out.println("ON T'AS DIT ENTRE 2 ET 4");
             }
