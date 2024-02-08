@@ -1,4 +1,6 @@
-import Fonction.cli;
+package Fonction;
+import java.util.*;
+
 
 
 public class Main {

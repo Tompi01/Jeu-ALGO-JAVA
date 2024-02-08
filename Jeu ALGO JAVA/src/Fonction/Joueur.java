@@ -1,5 +1,9 @@
 package Fonction;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class Joueur {
     private int positionX;
     private int positionY;
@@ -57,5 +61,97 @@ public class Joueur {
 
     public void incrementerScore(int points){
         score += points;
+    }
+
+    public static void genererJoueurs(List listeJoueurs){
+        // on demand le nombre de joueurs avec une boucle do-while
+        int nombreJoueurs;
+        Scanner nombreJoueursEntree = new Scanner(System.in);
+        do {
+            System.out.println("Entrez le nombre de joueurs (Entre 2 et 4)");
+            nombreJoueurs = nombreJoueursEntree.nextInt();
+            if (nombreJoueurs < 2 || nombreJoueurs > 4){
+                System.out.println("ON T'AS DIT ENTRE 2 ET 4");
+            }
+        } while (nombreJoueurs < 2 || nombreJoueurs > 4);
+
+        // Liste pour stocker les joueurs
+        List<Joueur> joueurs = new ArrayList<>();
+
+        // Liste pour stocker les pseudos déjà saisis
+        ArrayList<String> pseudos = new ArrayList<>();
+
+        // Créer le nombre de joueurs en conséquence
+        for (int id = 2; id <= nombreJoueurs + 1; id++) {
+            int positionColonne, positionLigne;
+            String pseudo;
+            Scanner entreePseudo = new Scanner(System.in);
+
+            // Boucle do-while pour demander le pseudo jusqu'à ce qu'il soit valide
+            do {
+                // Demande le pseudo du joueur
+                System.out.println("Entre le pseudo du joueur " + (id - 1));
+                pseudo = entreePseudo.nextLine();
+
+                // Vérifie la longueur du pseudo
+                if (pseudo.length() < 2 || pseudo.length() > 10) {
+                    System.out.println("Votre pseudo doit contenir entre 2 et 10 caractères.");
+                } else if (pseudos.contains(pseudo)) {
+                    // Vérifie si le pseudo est déjà pris
+                    System.out.println("Ce pseudo est déjà utilisé. Veuillez choisir un pseudo unique.");
+                }
+            } while (pseudo.length() < 2 || pseudo.length() > 10 || pseudos.contains(pseudo));
+
+            // Ajoute le pseudo à la liste des pseudos
+            pseudos.add(pseudo);
+
+            // Gerer la position des joueurs au départ en fonction de leur nombre
+            if (nombreJoueurs == 2){
+                if (id == 2) {
+                    positionColonne = 6;
+                    positionLigne = 5;
+                }
+                else {
+                    positionColonne = 6;
+                    positionLigne = 6;
+                }
+            } else if (nombreJoueurs == 3){
+                if (id == 2) {
+                    positionColonne = 5;
+                    positionLigne = 5;
+
+                } else if (id == 3){
+                    positionColonne = 6;
+                    positionLigne = 6;
+                } else {
+                    positionColonne = 7;
+                    positionLigne = 5;
+                }
+            } else {
+                if (id == 2) {
+                    positionColonne = 5;
+                    positionLigne = 5;
+
+                } else if (id == 3){
+                    positionColonne = 5;
+                    positionLigne = 6;
+                } else if (id == 4){
+                    positionColonne = 7;
+                    positionLigne = 5;
+                } else {
+                    positionColonne = 7;
+                    positionLigne = 6;
+                }
+            }
+
+
+            // Création du joueur
+            Joueur joueur = new Joueur(positionColonne, positionLigne, id, pseudo);
+
+            // Ajout du joueur dans une liste contenant tout les joueurs
+            listeJoueurs.add(joueur);
+
+
+        }
     }
 }
