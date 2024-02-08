@@ -1,2 +1,2 @@
-Elwan,5
-Pierre,-2
+Elwan,-2
+Tomas,5

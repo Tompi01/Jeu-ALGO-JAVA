@@ -18,11 +18,6 @@ public class Jeu {
         // Incrémente le score du joueur gagnant
         scoresGestion.put(joueurCourant, scoresGestion.getOrDefault(joueurCourant, 0) + nbPoints);
         // Incrémente le score des autres joueurs
-        for (String joueur : scoresGestion.keySet()) {
-            if (!joueur.equals(joueurCourant)) {
-                scoresGestion.put(joueur, scoresGestion.getOrDefault(joueur, 0) + nbPoints);
-            }
-        }
     }
 
     /**

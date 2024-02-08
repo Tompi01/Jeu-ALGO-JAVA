@@ -2,6 +2,8 @@ package Fonction;
 
 import java.util.*;
 
+import static Fonction.cli.effacerConsole;
+
 /**
  * Classe pour gérer les scores des joueurs.
  */
@@ -83,6 +85,7 @@ public class gestionScore {
      * @param tri L'ordre de tri : 1 pour croissant, 2 pour décroissant, autre pour l'ordre d'ajout.
      */
     public static void afficherScores(int tri) {
+        effacerConsole();
         System.out.println("Scores :");
 
         // Obtient la liste triée des scores

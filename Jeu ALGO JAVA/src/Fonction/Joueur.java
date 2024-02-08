@@ -2,6 +2,9 @@ package Fonction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import Fonction.cli.*;
+
+import static Fonction.cli.lireEntier;
 
 /**
  * Classe représentant un joueur dans le jeu.
@@ -120,7 +123,7 @@ public class Joueur {
         // On demande le nombre de joueurs avec une boucle do-while
         int nombreJoueurs;
         do {
-            nombreJoueurs = cli.lireEntier("Entrez le nombre de joueurs (Entre 2 et 4): ");
+            nombreJoueurs = lireEntier("Entrez le nombre de joueurs (Entre 2 et 4): ");
             if (nombreJoueurs < 2 || nombreJoueurs > 4) {
                 System.out.println("ON T'AS DIT ENTRE 2 ET 4");
             }

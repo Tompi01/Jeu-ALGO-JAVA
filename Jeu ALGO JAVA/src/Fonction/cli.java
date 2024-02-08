@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class cli {
     // Scanner pour lire l'entrée utilisateur
-    private static final Scanner scanner = new Scanner(System.in);
+    public static final Scanner scanner = new Scanner(System.in);
 
     /**
      * Fonction principale du menu.
@@ -77,10 +77,12 @@ public class cli {
         }
     }
 
+
     /**
      * Fonction pour afficher les règles.
      */
     private static void afficherRegles() {
+        effacerConsole();
         System.out.println("Règles : ");
         System.out.println("Pendant son tour, un joueur peut déplacer son pion d’une case (verticalement ou horizontalement), puis il détruit une case du plateau.\n" +
                 "Le dernier joueur pouvant encore se déplacer gagne.\n" +
@@ -128,6 +130,7 @@ public class cli {
      * Fonction pour afficher les scores.
      */
     public static void scores() {
+        effacerConsole();
         // Attendre l'entrée de l'utilisateur pour afficher le score
         System.out.println("1 - pas trié \n2 - tri décroissant \n3 - tri croissant \n4 - retour");
 
@@ -160,31 +163,31 @@ public class cli {
      * Fonction pour charger les résultats.
      */
     private static void chargerResultats() {
-        List<Resultat> resultatsCharges = null;
+        effacerConsole();
         try {
-            resultatsCharges = ChargeurResultats.chargerScores("resultats_partie.txt");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            ChargeurResultats.chargerScores("resultats_partie.txt");
+            gestionErreur("Les scores ont bien été chargés depuis le fichier", 2000);
 
-        if (resultatsCharges != null) {
-            System.out.println("Les résultats ont été chargés depuis le fichier.");
-            menu();
+        } catch (Exception e) {
+            gestionErreur("Erreur dans le chargement du fichier (fichier inexistant)", 2000);
+        }
+        menu();
+
+    }
+
+        /**
+         * Fonction pour lire un entier depuis l'entrée utilisateur.
+         *
+         * @param message Message à afficher avant de lire l'entier.
+         * @return Entier lu depuis l'entrée utilisateur.
+         */
+        public static int lireEntier(String message) {
+            System.out.print(message);
+            while (!scanner.hasNextInt()) {
+                System.out.println("Veuillez entrer un nombre entier.");
+                scanner.next(); // Consommer l'entrée invalide
+            }
+            return scanner.nextInt();
         }
     }
 
-    /**
-     * Fonction pour lire un entier depuis l'entrée utilisateur.
-     *
-     * @param message Message à afficher avant de lire l'entier.
-     * @return Entier lu depuis l'entrée utilisateur.
-     */
-    public static int lireEntier(String message) {
-        System.out.print(message);
-        while (!scanner.hasNextInt()) {
-            System.out.println("Veuillez entrer un nombre entier.");
-            scanner.next(); // Consommer l'entrée invalide
-        }
-        return scanner.nextInt();
-    }
-}

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Jeu-ALGO-JAVA:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Jeu_ALGO_JAVA_jar</output-path>
+    <root id="archive" name="Jeu-ALGO-JAVA.jar">
+      <element id="module-output" name="Jeu-ALGO-JAVA" />
+    </root>
+  </artifact>
+</component>
