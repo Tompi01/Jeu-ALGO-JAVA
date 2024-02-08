@@ -2,113 +2,125 @@ package Fonction;
 import Fonction.Save.ChargeurResultats;
 import Fonction.Save.Resultat;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import static Fonction.Jeu.initialisationJeu;
+import static Fonction.Jeu.mettreAJourScores;
+
 
 public class cli {
+    // Scanner pour lire l'entrée utilisateur
+    private static Scanner choixMenuEntree = new Scanner(System.in);
+
+    // Fonction principale du menu
     public static void menu() {
-        // Efface la console pour une nouvelle interaction utilisateur
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-
-        // Initialise un scanner pour lire l'entrée utilisateur
-        Scanner scanner = new Scanner(System.in);
-
-        // Affiche le message de bienvenue et le menu
+        effacerConsole(); // Efface la console pour une nouvelle interaction utilisateur
         System.out.println("\n    BIENVENUE SUR CHESS DESTRUCT\r\n\n");
-        System.out.println("1 - Commencer une partie    \n2 - Règles  \n3 - Scores   \n4 - Charger une sauvegarde4 \n5 - Quitter\r\n");
+        System.out.println("1 - Commencer une partie    \n2 - Règles  \n3 - Scores   \n4 - Charger une sauvegarde \n5 - Quitter\r\n");
 
         try {
-            // Lit le choix de l'utilisateur pour le menu
-            int response = scanner.nextInt();
+            int response = choixMenuEntree.nextInt(); // Lit le choix de l'utilisateur
 
-            // Utilise une instruction switch pour traiter différentes options du menu
             switch (response) {
                 case 1:
-                    // Option 1: le joueur lance le jeu
-                    initialisationJeu();
+                    Jeu.initialisationJeu();
                     break;
                 case 2:
-                    // Option 2: Affiche les règles, puis attend pendant 5 secondes
-                    System.out.println("Règles : ");
-                    System.out.println("Pendant son tour, un joueur peut déplacer son pion d’une case (verticalement ou horizontalement), puis il détruit une case du plateau.\n" +
-                            "Le dernier joueur pouvant encore se déplacer gagne.\n" +
-                            "Contraintes :\n" +
-                            "- Un joueur ne peut pas détruire une case occupée.\n" +
-                            "- Un joueur ne peut pas occuper une case détruite ou une case déjà occupée.\n" +"- Un joueur bloqué pendant un tour est déclaré perdant.");
-                    try {
-                        Thread.sleep(2000); // Attendre pendant 2 secondes
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    menu(); // Appelle la fonction menu
+                    afficherRegles();
                     break;
                 case 3:
-                    // Option 3: Affiche "Scores" à tout moment
-                    Jeu.afficherScores();
-
-                    // Attendre l'entrée de l'utilisateur pour le menu de fin de partie
-                    int finPartieResponse = scanner.nextInt();
-                    switch (finPartieResponse) {
-                        case 1:
-                            // Rejouer une partie
-                            initialisationJeu();
-                            break;
-                        case 2:
-                            // Voir le tableau des scores
-                            Jeu.afficherScores();
-                            break;
-                        case 3:
-                            // Revenir au menu principal
-                            menu();
-                            break;
-                        default:
-                            System.out.println("Option invalide");
-                            break;
-                    }
+                    scores();
                     break;
                 case 4:
                     // Chargez les résultats depuis un fichier
-                    List<Resultat> resultatsCharges = ChargeurResultats.chargerResultats("resultats_partie.ser");
+                    List<Resultat> resultatsCharges = ChargeurResultats.chargerScores("resultats_partie.txt");
                     // Ne pas oublier de gérer les cas d'erreur de chargement si le fichier n'existe pas
-                    if (resultatsCharges != null) {
+                    if (resultatsCharges == null) {
                         System.out.println("Les résultats ont été chargés depuis le fichier.");
                         // Revenir au menu principal
                         menu();
                         break;
                     }
+                    System.out.println(resultatsCharges);
+                    menu();
                     break;
-
                 case 5:
-                    // Option 4: Affiche "Quitter" et quitte le programme
+                    // Option 5: Affiche "Quitter" et quitte le programme
                     System.out.println("Quitter");
                     System.exit(0);
+                    break;
                 default:
-                    // Cas par défaut pour une entrée invalide
-                    System.out.println("Rentrez un chiffre entier en 1 et 4");
-
-                    try {
-                        Thread.sleep(1000); // Attendre pendant 1 seconde
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    menu(); // Appelle la fonction menu
+                    gestionErreur("Rentrez un chiffre entier en 1 et 5", 1000);
                     break;
             }
-            scanner.close();
         } catch (InputMismatchException e) {
-            // Gère l'exception si l'utilisateur entre une valeur non entière
-            System.out.println("Rentrez un CHIFFRE entier en 1 et 4");
-            try {
-                Thread.sleep(1000); // Attendre pendant 1 seconde
-            } catch (InterruptedException r) {
-                throw new RuntimeException(r);
-            }
-            menu();
+            gestionErreur("Rentrez un CHIFFRE entier en 1 et 5", 1000);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
+    // Fonction pour effacer la console
+    private static void effacerConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    // Fonction pour gérer les erreurs
+    public static void gestionErreur(String message, int attente) {
+        System.out.println(message);
+        try {
+            Thread.sleep(attente);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        menu();
+    }
+
+    // Fonction pour afficher les règles
+    private static void afficherRegles() {
+        System.out.println("Règles : ");
+        System.out.println("Pendant son tour, un joueur peut déplacer son pion d’une case (verticalement ou horizontalement), puis il détruit une case du plateau.\n" +
+                "Le dernier joueur pouvant encore se déplacer gagne.\n" +
+                "Contraintes :\n" +
+                "- Un joueur ne peut pas détruire une case occupée.\n" +
+                "- Un joueur ne peut pas occuper une case détruite ou une case déjà occupée.\n" +"- Un joueur bloqué pendant un tour est déclaré perdant.");
+
+        try {
+            Thread.sleep(2000); // Attendre pendant 2 secondes
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        menu(); // Revenir au menu principal
+    }
+
+    // Fonction pour afficher les scores
+    public static void scores() {
+
+        // Attendre l'entrée de l'utilisateur pour afficher le score
+        System.out.println("1 - pas trié \n2 - tri décroissant \n3 - tri croissant \n4 - retour");
+        int reponse = choixMenuEntree.nextInt();
+
+        switch (reponse) {
+            case 1:
+                gestionScore.afficherScores(3); // On appelle la fonction avec 3 en parametre pour ne pas trier la liste
+                break;
+            case 2:
+                gestionScore.afficherScores(1); // On appelle la fonction avec 1 en parametre pour trier de maniere décroissante
+                break;
+            case 3:
+                gestionScore.afficherScores(2); // On appelle la fonction avec 2 en parametre pour trier de maniere croissante
+                break;
+            case 4:
+                menu();
+                break;
+            default:
+                gestionErreur("Option invalide", 0);
+                break;
+        }
+    }
 }

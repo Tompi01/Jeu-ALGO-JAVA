@@ -1,21 +1,23 @@
 package Fonction.Save;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.List;
+import java.util.Map;
+
+import static Fonction.Jeu.scores;
 
 public class EnregistreurResultats {
 
     // Enregistre les résultats dans un fichier
     public static void enregistrerResultats(List<Resultat> resultats, String nomFichier) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nomFichier))) {
-            // Écrit les résultats dans le fichier en utilisant un objet
-            oos.writeObject(resultats);
-            System.out.println("Les résultats ont été enregistrés dans " + nomFichier);
-        } catch (IOException e) {
-            // Gère l'exception si une erreur se produit lors de l'écriture des résultats
-            System.out.println("Erreur lors de l'enregistrement des résultats dans " + nomFichier + ": " + e.getMessage());
+        try (PrintWriter writer = new PrintWriter(new File(nomFichier))){
+            for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+                writer.println(entry.getKey() + "," + entry.getValue());
+            }
+            System.out.println("Scores sauvegarder dans le fichier "+ nomFichier);
+        }
+        catch (FileNotFoundException e){
+            System.err.println("Erreur de sauvegarde du fichier :" + e.getMessage());
         }
     }
 }

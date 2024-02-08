@@ -1,6 +1,7 @@
 package Fonction;
 import Fonction.Save.EnregistreurResultats;
 import Fonction.Save.Resultat;
+import Fonction.gestionScore.*;
 
 import java.util.Random;
 import java.util.ArrayList;
@@ -13,16 +14,16 @@ import static Fonction.cli.menu;
 
 public class Jeu {
 
-    static Map<String, Integer> scores = new HashMap<>();
+    public static Map<String, Integer> scores = new HashMap<>();
 
     // Méthode pour mettre à jour les scores à la fin de chaque partie
-    public static void mettreAJourScores(String joueurGagnant) {
+    public static void mettreAJourScores(String joueurCourant, int nbPoints) {
         // Incrémente le score du joueur gagnant
-        scores.put(joueurGagnant, scores.getOrDefault(joueurGagnant, 0) + 5);
+        scores.put(joueurCourant, scores.getOrDefault(joueurCourant, 0) + nbPoints);
         // Incrémente le score des autres joueurs
         for (String joueur : scores.keySet()) {
-            if (!joueur.equals(joueurGagnant)) {
-                scores.put(joueur, scores.getOrDefault(joueur, 0) - 2);
+            if (!joueur.equals(joueurCourant)) {
+                scores.put(joueur, scores.getOrDefault(joueur, 0) +nbPoints);
             }
         }
     }
@@ -35,6 +36,7 @@ public class Jeu {
         }
     }
 
+
     public static void afficherMenuFinPartie() {
         System.out.println("\nQue souhaitez-vous faire ?");
         System.out.println("1 - Rejouer une partie");
@@ -46,99 +48,12 @@ public class Jeu {
     // Liste pour stocker les joueurs
     static List<Joueur> listeJoueurs = new ArrayList<>();
 
+
     public static void initialisationJeu() {
         // Appeler la création de la matrice depuis la classe Matrice
         int[][] matrice = Matrice.creationMatrice();
 
-        // on demand le nombre de joueurs avec une boucle do-while
-        int nombreJoueurs;
-        do {
-            System.out.println("Entrez le nombre de joueurs (Entre 2 et 4)");
-            Scanner nombreJoueursEntree = new Scanner(System.in);
-            nombreJoueurs = nombreJoueursEntree.nextInt();
-            if (nombreJoueurs < 2 || nombreJoueurs > 4){
-                System.out.println("ON T'AS DIT ENTRE 2 ET 4");
-            }
-        } while (nombreJoueurs < 2 || nombreJoueurs > 4);
-
-        // Liste pour stocker les joueurs
-        List<Joueur> joueurs = new ArrayList<>();
-
-        // Liste pour stocker les pseudos déjà saisis
-        ArrayList<String> pseudos = new ArrayList<>();
-
-        // Créer le nombre de joueurs en conséquence
-        for (int id = 2; id <= nombreJoueurs + 1; id++) {
-            int positionColonne, positionLigne;
-            String pseudo;
-            Scanner entreePseudo = new Scanner(System.in);
-
-            // Boucle do-while pour demander le pseudo jusqu'à ce qu'il soit valide
-            do {
-                // Demande le pseudo du joueur
-                System.out.println("Entre le pseudo du joueur " + (id - 1));
-                pseudo = entreePseudo.nextLine();
-
-                // Vérifie la longueur du pseudo
-                if (pseudo.length() < 2 || pseudo.length() > 10) {
-                    System.out.println("Votre pseudo doit contenir entre 2 et 10 caractères.");
-                } else if (pseudos.contains(pseudo)) {
-                    // Vérifie si le pseudo est déjà pris
-                    System.out.println("Ce pseudo est déjà utilisé. Veuillez choisir un pseudo unique.");
-                }
-            } while (pseudo.length() < 2 || pseudo.length() > 10 || pseudos.contains(pseudo));
-
-            // Ajoute le pseudo à la liste des pseudos
-            pseudos.add(pseudo);
-
-            // Gerer la position des joueurs au départ en fonction de leur nombre
-            if (nombreJoueurs == 2){
-                if (id == 2) {
-                    positionColonne = 6;
-                    positionLigne = 5;
-                }
-                else {
-                    positionColonne = 6;
-                    positionLigne = 6;
-                }
-            } else if (nombreJoueurs == 3){
-                if (id == 2) {
-                    positionColonne = 5;
-                    positionLigne = 5;
-
-                } else if (id == 3){
-                    positionColonne = 6;
-                    positionLigne = 6;
-                } else {
-                    positionColonne = 7;
-                    positionLigne = 5;
-                }
-            } else {
-                if (id == 2) {
-                    positionColonne = 5;
-                    positionLigne = 5;
-
-                } else if (id == 3){
-                    positionColonne = 5;
-                    positionLigne = 6;
-                } else if (id == 4){
-                    positionColonne = 7;
-                    positionLigne = 5;
-                } else {
-                    positionColonne = 7;
-                    positionLigne = 6;
-                }
-            }
-            // Définir  les positions des joueurs
-
-
-            // Création du joueur
-            Joueur joueur = new Joueur(positionColonne, positionLigne, id, pseudo);
-
-            // Ajout du joueur dans une liste contenant tout les joueurs
-            listeJoueurs.add(joueur);
-        }
-
+        Joueur.genererJoueurs(listeJoueurs);
 
         // Ajouter les joueurs à la matrice
         for (Joueur joueur : listeJoueurs) {
@@ -156,10 +71,11 @@ public class Jeu {
         // On appelle la fonction boucle de jeu
         boucleJeu(matrice, joueurCommence);
 
-        System.out.println("Le joueur" + (listeJoueurs.get(0).getId() - 1) + " à gagné");
+        System.out.println(listeJoueurs.get(0).getPseudo() + " à gagné");
+        gestionScore.mettreAJourScores(listeJoueurs.get(0).getPseudo(), true);
 
-        mettreAJourScores(listeJoueurs.get(0).getPseudo());
         listeJoueurs.get(0).incrementerScore(5);
+        listeJoueurs.clear(); // On vide la liste des Joueurs en prévision d'un prochaine partie
 
         afficherMenuFinPartie();
         Scanner scanner = new Scanner(System.in);
@@ -169,7 +85,7 @@ public class Jeu {
                 initialisationJeu(); // Rejouer une partie
                 break;
             case 2:
-                afficherScores(); // Voir les scores
+                cli.scores(); // Voir les scores
                 menu(); // Revenir au menu principal
                 break;
             case 3:
@@ -183,7 +99,7 @@ public class Jeu {
                 }
 
                 // Enregistrez les résultats dans un fichier
-                EnregistreurResultats.enregistrerResultats(resultatsPartie, "resultats_partie.ser");
+                EnregistreurResultats.enregistrerResultats(resultatsPartie, "resultats_partie.txt");
                 menu();
                 break;
             case 4:
@@ -199,7 +115,6 @@ public class Jeu {
     public static void boucleJeu(int[][] matrice, Joueur joueur) {
 
         int indexEnTrainDeJouer;
-        List<Joueur> listeJoueursComplete = new ArrayList<>(listeJoueurs);
         // boucle de jeu
         while (true) {
             indexEnTrainDeJouer = listeJoueurs.indexOf(joueur);
@@ -250,7 +165,8 @@ public class Jeu {
 
         if (caseDroite != 0 && caseGauche != 0 && caseBas != 0 && caseHaut != 0) {
             listeJoueurs.remove(joueur);
-            System.out.println("Le joueur " + (joueur.getId()-1) + " est dead");
+            gestionScore.mettreAJourScores(joueur.getPseudo(), false);
+            System.out.println(joueur.getPseudo() + " est dead");
         }
     }
 }
