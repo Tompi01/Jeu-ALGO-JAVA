@@ -22,7 +22,7 @@ public class Jeu {
         // Incrémente le score des autres joueurs
         for (String joueur : scores.keySet()) {
             if (!joueur.equals(joueurGagnant)) {
-                scores.put(joueur, scores.getOrDefault(joueur, 0) + 2);
+                scores.put(joueur, scores.getOrDefault(joueur, 0) - 2);
             }
         }
     }
@@ -50,16 +50,26 @@ public class Jeu {
         // Appeler la création de la matrice depuis la classe Matrice
         int[][] matrice = Matrice.creationMatrice();
 
-        int nombreJoueur = 2;
+        // on demand le nombre de joueurs avec une boucle do-while
+        int nombreJoueurs;
+        do {
+            System.out.println("Entrez le nombre de joueurs (Entre 2 et 4)");
+            Scanner nombreJoueursEntree = new Scanner(System.in);
+            nombreJoueurs = nombreJoueursEntree.nextInt();
+            if (nombreJoueurs < 2 || nombreJoueurs > 4){
+                System.out.println("ON T'AS DIT ENTRE 2 ET 4");
+            }
+        } while (nombreJoueurs < 2 || nombreJoueurs > 4);
 
         // Liste pour stocker les joueurs
         List<Joueur> joueurs = new ArrayList<>();
+
         // Liste pour stocker les pseudos déjà saisis
         ArrayList<String> pseudos = new ArrayList<>();
 
         // Créer le nombre de joueurs en conséquence
-        for (int id = 2; id <= nombreJoueur + 1; id++) {
-            int positionX, positionY;
+        for (int id = 2; id <= nombreJoueurs + 1; id++) {
+            int positionColonne, positionLigne;
             String pseudo;
             Scanner entreePseudo = new Scanner(System.in);
 
@@ -81,17 +91,49 @@ public class Jeu {
             // Ajoute le pseudo à la liste des pseudos
             pseudos.add(pseudo);
 
-            // Définir  les positions des joueurs
-            if (id == 2) {
-                positionX = 6;
-                positionY = 5;
+            // Gerer la position des joueurs au départ en fonction de leur nombre
+            if (nombreJoueurs == 2){
+                if (id == 2) {
+                    positionColonne = 6;
+                    positionLigne = 5;
+                }
+                else {
+                    positionColonne = 6;
+                    positionLigne = 6;
+                }
+            } else if (nombreJoueurs == 3){
+                if (id == 2) {
+                    positionColonne = 5;
+                    positionLigne = 5;
 
+                } else if (id == 3){
+                    positionColonne = 6;
+                    positionLigne = 6;
+                } else {
+                    positionColonne = 7;
+                    positionLigne = 5;
+                }
             } else {
-                positionX = 6;
-                positionY = 6;
+                if (id == 2) {
+                    positionColonne = 5;
+                    positionLigne = 5;
+
+                } else if (id == 3){
+                    positionColonne = 5;
+                    positionLigne = 6;
+                } else if (id == 4){
+                    positionColonne = 7;
+                    positionLigne = 5;
+                } else {
+                    positionColonne = 7;
+                    positionLigne = 6;
+                }
             }
+            // Définir  les positions des joueurs
+
+
             // Création du joueur
-            Joueur joueur = new Joueur(positionX, positionY, id, pseudo);
+            Joueur joueur = new Joueur(positionColonne, positionLigne, id, pseudo);
 
             // Ajout du joueur dans une liste contenant tout les joueurs
             listeJoueurs.add(joueur);
@@ -157,7 +199,7 @@ public class Jeu {
     public static void boucleJeu(int[][] matrice, Joueur joueur) {
 
         int indexEnTrainDeJouer;
-
+        List<Joueur> listeJoueursComplete = new ArrayList<>(listeJoueurs);
         // boucle de jeu
         while (true) {
             indexEnTrainDeJouer = listeJoueurs.indexOf(joueur);
