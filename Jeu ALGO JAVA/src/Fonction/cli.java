@@ -2,9 +2,14 @@ package Fonction;
 import Fonction.Save.ChargeurResultats;
 import Fonction.Save.Resultat;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import static Fonction.Jeu.initialisationJeu;
+import static Fonction.Jeu.mettreAJourScores;
+
 
 public class cli {
     // Scanner pour lire l'entrée utilisateur
@@ -30,9 +35,20 @@ public class cli {
                     scores();
                     break;
                 case 4:
-                    chargerResultats();
+                    // Chargez les résultats depuis un fichier
+                    List<Resultat> resultatsCharges = ChargeurResultats.chargerScores("resultats_partie.txt");
+                    // Ne pas oublier de gérer les cas d'erreur de chargement si le fichier n'existe pas
+                    if (resultatsCharges == null) {
+                        System.out.println("Les résultats ont été chargés depuis le fichier.");
+                        // Revenir au menu principal
+                        menu();
+                        break;
+                    }
+                    System.out.println(resultatsCharges);
+                    menu();
                     break;
                 case 5:
+                    // Option 5: Affiche "Quitter" et quitte le programme
                     System.out.println("Quitter");
                     System.exit(0);
                     break;
@@ -42,6 +58,8 @@ public class cli {
             }
         } catch (InputMismatchException e) {
             gestionErreur("Rentrez un CHIFFRE entier en 1 et 5", 1000);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -105,15 +123,4 @@ public class cli {
                 break;
         }
     }
-
-    // Fonction pour charger les résultats
-    private static void chargerResultats() {
-        List<Resultat> resultatsCharges = ChargeurResultats.chargerResultats("resultats_partie.ser");
-
-        if (resultatsCharges != null) {
-            System.out.println("Les résultats ont été chargés depuis le fichier.");
-            menu();
-        }
-    }
-
 }

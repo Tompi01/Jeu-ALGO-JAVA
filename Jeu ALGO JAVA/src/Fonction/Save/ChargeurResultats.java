@@ -1,26 +1,24 @@
 package Fonction.Save;
-
+import Fonction.Jeu;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChargeurResultats {
+    public static List<Resultat> chargerScores(String file) throws IOException {
+        InputStream is = new FileInputStream(file);
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader buffer = new BufferedReader(isr);
 
-    // Charge les résultats à partir d'un fichier
-    public static List<Resultat> chargerResultats(String nomFichier) {
-        List<Resultat> resultats = new ArrayList<>(); // Crée une nouvelle liste pour stocker les résultats
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nomFichier))) {
-            // Lit les résultats à partir du fichier et les convertit en une liste d'objets Resultat
-            resultats = (List<Resultat>) ois.readObject();
-            System.out.println("Les résultats ont été chargés depuis " + nomFichier);
-        } catch (FileNotFoundException e) {
-            // Gère l'exception si le fichier n'est pas trouvé
-            System.out.println("Le fichier de sauvegarde " + nomFichier + " n'a pas été trouvé.");
-        } catch (IOException | ClassNotFoundException e) {
-            // Gère l'exception si une erreur se produit lors de la lecture des résultats
-            System.out.println("Erreur lors du chargement des résultats depuis " + nomFichier + ": " + e.getMessage());
+        String line;
+        while ((line = buffer.readLine()) != null){
+            String[] tempScore = line.split(",");
+            String pseudo = tempScore[0];
+            int score = Integer.parseInt(tempScore[1]);
+            Jeu.mettreAJourScores(pseudo, score);
         }
-        return resultats; // Retourne la liste des résultats chargés depuis le fichier
+        return null;
+
     }
 
 }

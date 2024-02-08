@@ -14,6 +14,29 @@ import static Fonction.cli.menu;
 
 public class Jeu {
 
+    public static Map<String, Integer> scores = new HashMap<>();
+
+    // Méthode pour mettre à jour les scores à la fin de chaque partie
+    public static void mettreAJourScores(String joueurCourant, int nbPoints) {
+        // Incrémente le score du joueur gagnant
+        scores.put(joueurCourant, scores.getOrDefault(joueurCourant, 0) + nbPoints);
+        // Incrémente le score des autres joueurs
+        for (String joueur : scores.keySet()) {
+            if (!joueur.equals(joueurCourant)) {
+                scores.put(joueur, scores.getOrDefault(joueur, 0) +nbPoints);
+            }
+        }
+    }
+
+    // Méthode pour afficher les scores
+    public static void afficherScores() {
+        System.out.println("Scores :");
+        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " points");
+        }
+    }
+
+
     public static void afficherMenuFinPartie() {
         System.out.println("\nQue souhaitez-vous faire ?");
         System.out.println("1 - Rejouer une partie");
@@ -50,6 +73,7 @@ public class Jeu {
 
         System.out.println(listeJoueurs.get(0).getPseudo() + " à gagné");
         gestionScore.mettreAJourScores(listeJoueurs.get(0).getPseudo(), true);
+
         listeJoueurs.get(0).incrementerScore(5);
         listeJoueurs.clear(); // On vide la liste des Joueurs en prévision d'un prochaine partie
 
@@ -75,7 +99,7 @@ public class Jeu {
                 }
 
                 // Enregistrez les résultats dans un fichier
-                EnregistreurResultats.enregistrerResultats(resultatsPartie, "resultats_partie.ser");
+                EnregistreurResultats.enregistrerResultats(resultatsPartie, "resultats_partie.txt");
                 menu();
                 break;
             case 4:
