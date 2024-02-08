@@ -3,8 +3,41 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
+
+import static Fonction.cli.menu;
 
 public class Jeu {
+
+    static Map<String, Integer> scores = new HashMap<>();
+
+    // Méthode pour mettre à jour les scores à la fin de chaque partie
+    public static void mettreAJourScores(String joueurGagnant) {
+        // Incrémente le score du joueur gagnant
+        scores.put(joueurGagnant, scores.getOrDefault(joueurGagnant, 0) + 5);
+        // Incrémente le score des autres joueurs
+        for (String joueur : scores.keySet()) {
+            if (!joueur.equals(joueurGagnant)) {
+                scores.put(joueur, scores.getOrDefault(joueur, 0) + 2);
+            }
+        }
+    }
+
+    // Méthode pour afficher les scores
+    public static void afficherScores() {
+        System.out.println("Scores :");
+        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " points");
+        }
+    }
+
+    public static void afficherMenuFinPartie() {
+        System.out.println("\nQue souhaitez-vous faire ?");
+        System.out.println("1 - Rejouer une partie");
+        System.out.println("2 - Voir le tableau des scores");
+        System.out.println("3 - Revenir au menu principal");
+    }
 
     // Liste pour stocker les joueurs
     static List<Joueur> listeJoueurs = new ArrayList<>();
@@ -78,6 +111,28 @@ public class Jeu {
         boucleJeu(matrice, joueurCommence);
 
         System.out.println("Le joueur" + (listeJoueurs.get(0).getId() - 1) + " à gagné");
+
+        mettreAJourScores(listeJoueurs.get(0).getPseudo());
+
+        afficherMenuFinPartie();
+        Scanner scanner = new Scanner(System.in);
+        int finPartieResponse = scanner.nextInt();
+        switch (finPartieResponse) {
+            case 1:
+                initialisationJeu(); // Rejouer une partie
+                break;
+            case 2:
+                afficherScores(); // Voir les scores
+                menu(); // Revenir au menu principal
+                break;
+            case 3:
+                menu(); // Revenir au menu principal
+                break;
+            default:
+                System.out.println("Option invalide");
+                break;
+        }
+
     }
 
     public static void boucleJeu(int[][] matrice, Joueur joueur) {

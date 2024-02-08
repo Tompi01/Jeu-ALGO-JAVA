@@ -43,8 +43,30 @@ public class cli {
                     menu(); // Appelle la fonction menu
                     break;
                 case 3:
-                    // Option 3: Affiche "Scores"
+                    // Option 3: Affiche "Scores" à tout moment
                     System.out.println("Scores");
+                    Jeu.afficherScores();
+                    Jeu.afficherMenuFinPartie();
+
+                    // Attendre l'entrée de l'utilisateur pour le menu de fin de partie
+                    int finPartieResponse = scanner.nextInt();
+                    switch (finPartieResponse) {
+                        case 1:
+                            // Rejouer une partie
+                            initialisationJeu();
+                            break;
+                        case 2:
+                            // Voir le tableau des scores
+                            Jeu.afficherScores();
+                            break;
+                        case 3:
+                            // Revenir au menu principal
+                            menu();
+                            break;
+                        default:
+                            System.out.println("Option invalide");
+                            break;
+                    }
                     break;
                 case 4:
                     // Option 4: Affiche "Quitter" et quitte le programme
