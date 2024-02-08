@@ -6,11 +6,16 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Classe gérant l'interface utilisateur en ligne de commande.
+ */
 public class cli {
     // Scanner pour lire l'entrée utilisateur
     private static Scanner choixMenuEntree = new Scanner(System.in);
 
-    // Fonction principale du menu
+    /**
+     * Fonction principale du menu.
+     */
     public static void menu() {
         effacerConsole(); // Efface la console pour une nouvelle interaction utilisateur
         System.out.println("\n    BIENVENUE SUR CHESS DESTRUCT\r\n\n");
@@ -45,13 +50,20 @@ public class cli {
         }
     }
 
-    // Fonction pour effacer la console
+    /**
+     * Fonction pour effacer la console.
+     */
     private static void effacerConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    // Fonction pour gérer les erreurs
+    /**
+     * Fonction pour gérer les erreurs.
+     *
+     * @param message Message d'erreur à afficher.
+     * @param attente Durée d'attente en millisecondes après l'affichage du message d'erreur.
+     */
     public static void gestionErreur(String message, int attente) {
         System.out.println(message);
         try {
@@ -62,7 +74,9 @@ public class cli {
         menu();
     }
 
-    // Fonction pour afficher les règles
+    /**
+     * Fonction pour afficher les règles.
+     */
     private static void afficherRegles() {
         System.out.println("Règles : ");
         System.out.println("Pendant son tour, un joueur peut déplacer son pion d’une case (verticalement ou horizontalement), puis il détruit une case du plateau.\n" +
@@ -80,9 +94,10 @@ public class cli {
         menu(); // Revenir au menu principal
     }
 
-    // Fonction pour afficher les scores
+    /**
+     * Fonction pour afficher les scores.
+     */
     public static void scores() {
-
         // Attendre l'entrée de l'utilisateur pour afficher le score
         System.out.println("1 - pas trié \n2 - tri décroissant \n3 - tri croissant \n4 - retour");
         int reponse = choixMenuEntree.nextInt();
@@ -106,7 +121,9 @@ public class cli {
         }
     }
 
-    // Fonction pour charger les résultats
+    /**
+     * Fonction pour charger les résultats.
+     */
     private static void chargerResultats() {
         List<Resultat> resultatsCharges = ChargeurResultats.chargerResultats("resultats_partie.ser");
 
@@ -115,5 +132,4 @@ public class cli {
             menu();
         }
     }
-
 }

@@ -1,26 +1,26 @@
 package Fonction;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Classe représentant un joueur dans le jeu.
+ */
 public class Joueur {
     private int positionX;
     private int positionY;
     private int id;
     private String pseudo;
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     private int score;
 
-    // Constructeur de la classe Joueur
+    /**
+     * Constructeur de la classe Joueur.
+     *
+     * @param positionX Position X initiale du joueur.
+     * @param positionY Position Y initiale du joueur.
+     * @param id Identifiant du joueur.
+     * @param pseudo Pseudo du joueur.
+     */
     public Joueur(int positionX, int positionY, int id, String pseudo) {
         this.positionX = positionX;
         this.positionY = positionY;
@@ -28,55 +28,105 @@ public class Joueur {
         this.pseudo = pseudo;
     }
 
-    // Getter de la position X du joueur
+    /**
+     * Getter de la position X du joueur.
+     *
+     * @return Position X du joueur.
+     */
     public int getPositionX() {
         return positionX;
     }
 
-    // Getter de la position Y du joueur
+    /**
+     * Getter de la position Y du joueur.
+     *
+     * @return Position Y du joueur.
+     */
     public int getPositionY() {
         return positionY;
     }
 
-    // Setter des positions X et Y du joueur
+    /**
+     * Setter des positions X et Y du joueur.
+     *
+     * @param newX Nouvelle position X du joueur.
+     * @param newY Nouvelle position Y du joueur.
+     */
     public void setPosition(int newX, int newY) {
         this.positionX = newX;
         this.positionY = newY;
     }
 
-    // Getter de l'id du joueur
+    /**
+     * Getter de l'identifiant du joueur.
+     *
+     * @return Identifiant du joueur.
+     */
     public int getId() {
         return id;
     }
 
-    // Getter du pseudo du joueur
+    /**
+     * Getter du pseudo du joueur.
+     *
+     * @return Pseudo du joueur.
+     */
     public String getPseudo() {
         return pseudo;
     }
 
-    // Setter du pseudo du joueur
+    /**
+     * Setter du pseudo du joueur.
+     *
+     * @param pseudo Nouveau pseudo du joueur.
+     */
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
 
-    public void incrementerScore(int points){
+    /**
+     * Getter du score du joueur.
+     *
+     * @return Score du joueur.
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * Setter du score du joueur.
+     *
+     * @param score Nouveau score du joueur.
+     */
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    /**
+     * Incrémente le score du joueur.
+     *
+     * @param points Points à ajouter au score.
+     */
+    public void incrementerScore(int points) {
         score += points;
     }
 
-    public static void genererJoueurs(List listeJoueurs){
-        // on demand le nombre de joueurs avec une boucle do-while
+    /**
+     * Génère les joueurs en fonction du nombre saisi par l'utilisateur.
+     *
+     * @param listeJoueurs Liste pour stocker les joueurs.
+     */
+    public static void genererJoueurs(List<Joueur> listeJoueurs) {
+        // On demande le nombre de joueurs avec une boucle do-while
         int nombreJoueurs;
         Scanner nombreJoueursEntree = new Scanner(System.in);
         do {
             System.out.println("Entrez le nombre de joueurs (Entre 2 et 4)");
             nombreJoueurs = nombreJoueursEntree.nextInt();
-            if (nombreJoueurs < 2 || nombreJoueurs > 4){
+            if (nombreJoueurs < 2 || nombreJoueurs > 4) {
                 System.out.println("ON T'AS DIT ENTRE 2 ET 4");
             }
         } while (nombreJoueurs < 2 || nombreJoueurs > 4);
-
-        // Liste pour stocker les joueurs
-        List<Joueur> joueurs = new ArrayList<>();
 
         // Liste pour stocker les pseudos déjà saisis
         ArrayList<String> pseudos = new ArrayList<>();
@@ -105,22 +155,20 @@ public class Joueur {
             // Ajoute le pseudo à la liste des pseudos
             pseudos.add(pseudo);
 
-            // Gerer la position des joueurs au départ en fonction de leur nombre
-            if (nombreJoueurs == 2){
+            // Gérer la position des joueurs au départ en fonction de leur nombre
+            if (nombreJoueurs == 2) {
                 if (id == 2) {
                     positionColonne = 6;
                     positionLigne = 5;
-                }
-                else {
+                } else {
                     positionColonne = 6;
                     positionLigne = 6;
                 }
-            } else if (nombreJoueurs == 3){
+            } else if (nombreJoueurs == 3) {
                 if (id == 2) {
                     positionColonne = 5;
                     positionLigne = 5;
-
-                } else if (id == 3){
+                } else if (id == 3) {
                     positionColonne = 6;
                     positionLigne = 6;
                 } else {
@@ -131,11 +179,10 @@ public class Joueur {
                 if (id == 2) {
                     positionColonne = 5;
                     positionLigne = 5;
-
-                } else if (id == 3){
+                } else if (id == 3) {
                     positionColonne = 5;
                     positionLigne = 6;
-                } else if (id == 4){
+                } else if (id == 4) {
                     positionColonne = 7;
                     positionLigne = 5;
                 } else {
@@ -144,14 +191,11 @@ public class Joueur {
                 }
             }
 
-
             // Création du joueur
             Joueur joueur = new Joueur(positionColonne, positionLigne, id, pseudo);
 
-            // Ajout du joueur dans une liste contenant tout les joueurs
+            // Ajout du joueur dans une liste contenant tous les joueurs
             listeJoueurs.add(joueur);
-
-
         }
     }
 }

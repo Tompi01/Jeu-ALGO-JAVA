@@ -32,19 +32,22 @@ public class gestionScore {
      */
     public static List<Map.Entry<String, Integer>> triInsertionScoreInverse(HashMap<String, Integer> scores) {
         List<Map.Entry<String, Integer>> listScores = new ArrayList<>(scores.entrySet());
+        // On récupèere la taille du tableau
         int taille = listScores.size();
 
+        // Boucle à travers chaque élément du tableau à partir du deuxième élément
         for (int i = 1; i < taille; i++) {
-            Map.Entry<String, Integer> temp = listScores.get(i);
-            int j = i - 1;
+            Map.Entry<String, Integer> temp = listScores.get(i); // Stocke temporairement l'élément actuel
+            int j = i - 1; // Initialise l'indice pour comparer avec les éléments précédents
 
+            // Boucle tant que l'indice n'est pas hors du tableau et l'élément actuel est plus grand que l'élément précédent
             while (j >= 0 && listScores.get(j).getValue() > temp.getValue()) {
-                listScores.set(j + 1, listScores.get(j));
-                j--;
+                listScores.set(j + 1, listScores.get(j)); // Décale l'élément précédent vers la droite
+                j--; // Décrémente l'indice pour comparer avec le prochain
             }
-            listScores.set(j + 1, temp);
+            listScores.set(j + 1, temp); // Place l'élément actuel à la position correcte dans le sous-tableau trié
         }
-        return listScores;
+        return listScores; // Retourne le tableau trié
     }
 
     /**
@@ -55,19 +58,22 @@ public class gestionScore {
      */
     public static List<Map.Entry<String, Integer>> triInsertionScore(HashMap<String, Integer> scores) {
         List<Map.Entry<String, Integer>> listScores = new ArrayList<>(scores.entrySet());
+        // On récupèere la taille du tableau
         int taille = listScores.size();
 
+        // Boucle à travers chaque élément du tableau à partir du deuxième élément
         for (int i = 1; i < taille; i++) {
-            Map.Entry<String, Integer> temp = listScores.get(i);
-            int j = i - 1;
+            Map.Entry<String, Integer> temp = listScores.get(i); // Stocke temporairement l'élément actuel
+            int j = i - 1; // Initialise l'indice pour comparer avec les éléments précédents
 
+            // Boucle tant que l'indice n'est pas hors du tableau et l'élément actuel est plus petit que l'élément précédent
             while (j >= 0 && listScores.get(j).getValue() < temp.getValue()) {
-                listScores.set(j + 1, listScores.get(j));
-                j--;
+                listScores.set(j + 1, listScores.get(j)); // Décale l'élément précédent vers la droite
+                j--; // Décrémente l'indice pour comparer avec le prochain
             }
-            listScores.set(j + 1, temp);
+            listScores.set(j + 1, temp); // Place l'élément actuel à la position correcte dans le sous-tableau trié
         }
-        return listScores;
+        return listScores; // Retourne le tableau trié
     }
 
     /**
