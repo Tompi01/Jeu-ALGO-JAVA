@@ -15,10 +15,9 @@ public class ChargeurResultats {
             String[] tempScore = line.split(",");
             String pseudo = tempScore[0];
             int score = Integer.parseInt(tempScore[1]);
-            Jeu.mettreAJourScores(pseudo, score);
+            Jeu.scoresAPartirSauvegarde(pseudo, score);
         }
         return null;
-
     }
 
 }

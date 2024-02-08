@@ -7,7 +7,7 @@ import java.util.*;
 public class gestionScore {
 
     // HashMap pour stocker les scores des joueurs
-    static HashMap<String, Integer> scores = new HashMap<>();
+    public static HashMap<String, Integer> scoresGestion = new HashMap<>();
 
     /**
      * Met à jour les scores à la fin de chaque partie en fonction du résultat.
@@ -18,9 +18,9 @@ public class gestionScore {
     public static void mettreAJourScores(String joueur, boolean aGagne) {
         // Incrémente ou décrémente le score du joueur en fonction du résultat
         if (aGagne) {
-            scores.put(joueur, scores.getOrDefault(joueur, 0) + 5);
+            scoresGestion.put(joueur, scoresGestion.getOrDefault(joueur, 0) + 5);
         } else {
-            scores.put(joueur, scores.getOrDefault(joueur, 0) - 2);
+            scoresGestion.put(joueur, scoresGestion.getOrDefault(joueur, 0) - 2);
         }
     }
 
@@ -81,11 +81,11 @@ public class gestionScore {
         // Obtient la liste triée des scores
         List<Map.Entry<String, Integer>> sortedScores;
         if (tri == 1) {
-            sortedScores = triInsertionScore(scores);
+            sortedScores = triInsertionScore(scoresGestion);
         } else if (tri == 2) {
-            sortedScores = triInsertionScoreInverse(scores);
+            sortedScores = triInsertionScoreInverse(scoresGestion);
         } else {
-            sortedScores = new ArrayList<>(scores.entrySet());
+            sortedScores = new ArrayList<>(scoresGestion.entrySet());
         }
 
         // Détermine le nombre de scores à afficher (au plus 10)

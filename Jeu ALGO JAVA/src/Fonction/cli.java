@@ -7,8 +7,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import static Fonction.Jeu.initialisationJeu;
-import static Fonction.Jeu.mettreAJourScores;
 
 
 public class cli {
@@ -37,7 +35,6 @@ public class cli {
                 case 4:
                     // Chargez les résultats depuis un fichier
                     List<Resultat> resultatsCharges = ChargeurResultats.chargerScores("resultats_partie.txt");
-                    // Ne pas oublier de gérer les cas d'erreur de chargement si le fichier n'existe pas
                     if (resultatsCharges == null) {
                         System.out.println("Les résultats ont été chargés depuis le fichier.");
                         // Revenir au menu principal
