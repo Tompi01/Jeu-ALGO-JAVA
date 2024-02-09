@@ -57,7 +57,7 @@ public class cli {
      * Fonction pour effacer la console.
      */
     public static void effacerConsole() {
-        System.out.println("effacer console");
+        // System.out.println("effacer console");
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }

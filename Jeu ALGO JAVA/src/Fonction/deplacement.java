@@ -1,5 +1,6 @@
 package Fonction;
 import Fonction.*;
+import Fonction.Bonus.devineLeNombreRecursive;
 
 import java.util.InputMismatchException;
 import java.util.Objects;
@@ -76,6 +77,41 @@ public class deplacement{
                         matrice[positionLJoueur][positionCJoueur] = 0;
                         joueur.setPosition(positionLJoueur + 1, positionCJoueur);
                         break;
+                    }
+                case "EASTEREGGS":
+                    System.out.println("Êtes vous sûr?");
+                    System.out.println("Y = oui | N = non");
+                    String easter = scanner.nextLine().toUpperCase();
+                    if (easter.equals("Y")){
+                        System.out.println("Vous vous apprêtez à jouer à un jeu, totalement inconnu et caché, êtes vous SÛR SÛR?");
+                        String easters = scanner.nextLine().toUpperCase();
+                        if (easters.equals("Y")){
+                            System.out.println("Vous l'aurez voulus.");
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            devineLeNombreRecursive.jeuDeDivination(joueur, matrice);
+                        }
+                        else {
+                            System.out.println("Petit joueur xd");
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            deplacementDuJoueur(joueur, matrice);
+                        }
+                    }
+                    else{
+                        System.out.println("Petit joueur xd");
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        deplacementDuJoueur(joueur, matrice);
                     }
 
                 default:
