@@ -1,5 +1,4 @@
 package Fonction.Save;
-
 import java.io.Serializable;
 
 public class Resultat implements Serializable {

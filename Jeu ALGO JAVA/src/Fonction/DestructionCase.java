@@ -1,9 +1,10 @@
 package Fonction;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static Fonction.Jeu.listeJoueurs;
 
 public class DestructionCase {
 
@@ -48,5 +49,18 @@ public class DestructionCase {
             destructionCase(matrice);
         }
     }
+    public static void joueurEstMort(int[][] matrice, Joueur joueur) {
+        int positionX = joueur.getPositionX();
+        int positionY = joueur.getPositionY();
 
+        int caseDroite = matrice[positionX + 1][positionY];
+        int caseGauche = matrice[positionX - 1][positionY];
+        int caseBas = matrice[positionX][positionY + 1];
+        int caseHaut = matrice[positionX][positionY - 1];
+
+        if (caseDroite != 0 && caseGauche != 0 && caseBas != 0 && caseHaut != 0) {
+            listeJoueurs.remove(joueur);
+            System.out.println("Le joueur " + (joueur.getId()-1) + " est dead");
+        }
+    }
 }

@@ -50,6 +50,7 @@ public class Matrice {
                     // Si c'est un joueur
                 } else if (matrix[colonne][ligne] >= 2) { // 2 est la valeur égale à un joueur dans notre matrice
                     System.out.print((matrix[colonne][ligne]- 1) + " | "); // Affiche l'id pour les positions des joueurs
+
                 } else {
                     // Affiche . pour les cases sans joueur
                     System.out.print(". | ");

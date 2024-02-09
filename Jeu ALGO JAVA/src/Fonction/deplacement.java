@@ -5,6 +5,8 @@ import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
 
+import static Fonction.DestructionCase.destructionCase;
+
 public class deplacement{
 
     /*
@@ -21,6 +23,7 @@ public class deplacement{
             System.out.println("Tour de " + joueur.getPseudo());
             System.out.println("Z - Haut | S - Bas | Q - Gauche | D - Droite");
             String response = scanner.nextLine().toUpperCase(); // mettre la réponse du joueur en majuscule
+
             switch (response) {
                 case "Z": // déplacement du joueur en haut
                     if (matrice[positionLJoueur ][positionCJoueur - 1] != 0) { // if supposer check si au dessus de lui la case est = à 0
@@ -77,7 +80,61 @@ public class deplacement{
                         joueur.setPosition(positionLJoueur + 1, positionCJoueur);
                         break;
                     }
+                case "POURQUOIPAS":
+                    System.out.println("are you sure about that?");
+                    try {
+                        Thread.sleep(1000); // Attendre pendant 1 seconde
+                    } catch (InterruptedException r) {
+                        throw new RuntimeException(r);
+                    }
+                    System.out.println("Si t'es sure about that appuis sur écris azertyuiop sinon bah je cancel tout.");
+                    String answer = scanner.nextLine().toUpperCase();
 
+                    switch (answer){
+                        case "AZERTYUIOP":
+                            System.out.println("Tu peut détruire 3 case d'affiler, petit tricheur mais on te vois.");
+                            Matrice.affichageMatrice(matrice);
+                            destructionCase(matrice);
+                            Matrice.affichageMatrice(matrice);
+                            destructionCase(matrice);
+                            Matrice.affichageMatrice(matrice);
+                            destructionCase(matrice);
+
+                            System.out.println("Bien vue l'artiste");
+                            try {
+                                Thread.sleep(3000); // Attendre pendant 1 seconde
+                            } catch (InterruptedException r) {
+                                throw new RuntimeException(r);
+                            }
+                            System.out.println("bisous chez toi");
+                            try {
+                                Thread.sleep(3000); // Attendre pendant 1 seconde
+                            } catch (InterruptedException r) {
+                                throw new RuntimeException(r);
+                            }
+                            Jeu.boucleJeu(matrice, joueur);
+                            break;
+                        case "AZ":
+                            System.out.println("Tu vas dans des bailles encore plus sombre là");
+                            try {
+                                Thread.sleep(3000); // Attendre pendant 1 seconde
+                            } catch (InterruptedException r) {
+                                throw new RuntimeException(r);
+                            }
+                            System.out.println("Mais finalement non.");
+                            cli.menu();
+                            break;
+                        default:
+                            System.out.println("Tu sait pas écrire? dommage.");
+                            try {
+                                Thread.sleep(3000); // Attendre pendant 1 seconde
+                            } catch (InterruptedException r) {
+                                throw new RuntimeException(r);
+                            }
+                            cli.menu();
+                            break;
+                    }
+                    break;
                 default:
                     System.out.println("Rentrez une lettre entre Z - Q - S - D");
                     deplacementDuJoueur(joueur, matrice);
@@ -95,7 +152,6 @@ public class deplacement{
             }
             deplacementDuJoueur(joueur, matrice);
         };
-
         return joueur;
     }
 }

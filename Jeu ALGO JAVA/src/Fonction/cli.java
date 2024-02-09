@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static Fonction.Jeu.initialisationJeu;
+import static Fonction.colors.*;
 
 public class cli {
     public static void menu() {
@@ -18,7 +19,7 @@ public class cli {
         Scanner scanner = new Scanner(System.in);
 
         // Affiche le message de bienvenue et le menu
-        System.out.println("\n    BIENVENUE SUR CHESS DESTRUCT\r\n\n");
+        System.out.println(ANSI_BLUE + "\n    BIENVENUE SUR CHESS DESTRUCT\r\n\n" + ANSI_RESET);
         System.out.println("1 - Commencer une partie    \n2 - Règles  \n3 - Scores   \n4 - Charger une sauvegarde4 \n5 - Quitter\r\n");
 
         try {
@@ -33,7 +34,7 @@ public class cli {
                     break;
                 case 2:
                     // Option 2: Affiche les règles, puis attend pendant 5 secondes
-                    System.out.println("Règles : ");
+                    System.out.println(ANSI_GREEN + "Règles : " + ANSI_RESET);
                     System.out.println("Pendant son tour, un joueur peut déplacer son pion d’une case (verticalement ou horizontalement), puis il détruit une case du plateau.\n" +
                             "Le dernier joueur pouvant encore se déplacer gagne.\n" +
                             "Contraintes :\n" +
@@ -48,7 +49,7 @@ public class cli {
                     break;
                 case 3:
                     // Option 3: Affiche "Scores" à tout moment
-                    Jeu.afficherScores();
+                    gestionScore.afficherScores();
 
                     // Attendre l'entrée de l'utilisateur pour le menu de fin de partie
                     int finPartieResponse = scanner.nextInt();
@@ -59,7 +60,7 @@ public class cli {
                             break;
                         case 2:
                             // Voir le tableau des scores
-                            Jeu.afficherScores();
+                            gestionScore.afficherScores();
                             break;
                         case 3:
                             // Revenir au menu principal
@@ -73,7 +74,6 @@ public class cli {
                 case 4:
                     // Chargez les résultats depuis un fichier
                     List<Resultat> resultatsCharges = ChargeurResultats.chargerResultats("resultats_partie.ser");
-                    // Ne pas oublier de gérer les cas d'erreur de chargement si le fichier n'existe pas
                     if (resultatsCharges != null) {
                         System.out.println("Les résultats ont été chargés depuis le fichier.");
                         // Revenir au menu principal
@@ -86,6 +86,15 @@ public class cli {
                     // Option 4: Affiche "Quitter" et quitte le programme
                     System.out.println("Quitter");
                     System.exit(0);
+                case 6:
+                    System.out.println("Ceci est un easterEgg");
+                    try {
+                        Thread.sleep(5000); // Attendre pendant 1 seconde
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    menu(); // Revenir au menu principal
+                    break;
                 default:
                     // Cas par défaut pour une entrée invalide
                     System.out.println("Rentrez un chiffre entier en 1 et 4");
@@ -110,5 +119,4 @@ public class cli {
             menu();
         }
     }
-
 }

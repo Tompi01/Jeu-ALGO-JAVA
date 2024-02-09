@@ -1,14 +1,14 @@
 package Fonction.Save;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChargeurResultats {
-
     // Charge les résultats à partir d'un fichier
     public static List<Resultat> chargerResultats(String nomFichier) {
+
         List<Resultat> resultats = new ArrayList<>(); // Crée une nouvelle liste pour stocker les résultats
+
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nomFichier))) {
             // Lit les résultats à partir du fichier et les convertit en une liste d'objets Resultat
             resultats = (List<Resultat>) ois.readObject();
@@ -22,7 +22,6 @@ public class ChargeurResultats {
         }
         return resultats; // Retourne la liste des résultats chargés depuis le fichier
     }
-
 }
 
 
