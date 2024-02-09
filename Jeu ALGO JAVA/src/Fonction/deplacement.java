@@ -121,9 +121,6 @@ public class deplacement{
 
             return joueur;
         }catch (InputMismatchException e){
-            // Gère l'exception si l'utilisateur entre une valeur non entière
-            System.out.println("Rentrez une lettre entre Z - Q - S - D");
-            deplacementDuJoueur(joueur, matrice);
             try {
                 Thread.sleep(1000); // Attendre pendant 1 seconde
             } catch (InterruptedException r) {

@@ -13,15 +13,16 @@ public class devineLeNombreRecursive {
         Random random = new Random();
         int nombreATrouver = random.nextInt(9) + 1; // Nombre aléatoire entre 1 et 10
 
-        System.out.println("Bienvenue dans le jeu de Divination qui est totalement récursif et qui est un easter egg bien cacher!!");
+        System.out.println("Bienvenue dans le jeu de Divination codé en récursif, qui est un easter egg bien caché !");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Trouve le nombre entre 1 et 10.");
+        System.out.println("Trouvez le nombre entre 1 et 10.");
 
         boolean resultat = devinerNombre(scanner, nombreATrouver, 1);
+
         if (resultat) {
             System.out.println("Bravo, vous avez trouvé le nombre !");
             try {
@@ -29,16 +30,17 @@ public class devineLeNombreRecursive {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            cli.gestionErreur("Tu peut vas pouvoir détruire 3 cases d'affiler.", 2000);
+            cli.gestionErreur("Tu vas pouvoir détruire 3 cases d'affilée.", 2000);
             Matrice.affichageMatrice(matrice);
             DestructionCase.destructionCase(matrice);
             Matrice.affichageMatrice(matrice);
             DestructionCase.destructionCase(matrice);
             Matrice.affichageMatrice(matrice);
             DestructionCase.destructionCase(matrice);
+            Matrice.affichageMatrice(matrice);
 
         } else if (essaiActuel > 3) {
-            System.out.println("Désolé, vous avez épuisé vos essais bandes de loser. Le nombre était : " + nombreATrouver);
+            System.out.println("Désolé, vous avez épuisé vos essais. Le nombre était : " + nombreATrouver);
         }
         else{
             devinerNombre(scanner, nombreATrouver, essaiActuel);

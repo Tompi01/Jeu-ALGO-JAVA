@@ -31,87 +31,29 @@ public class Joueur {
         this.pseudo = pseudo;
     }
 
-    /**
-     * Getter de la position X du joueur.
-     *
-     * @return Position X du joueur.
-     */
     public int getPositionX() {
         return positionX;
     }
 
-    /**
-     * Getter de la position Y du joueur.
-     *
-     * @return Position Y du joueur.
-     */
     public int getPositionY() {
         return positionY;
     }
 
-    /**
-     * Setter des positions X et Y du joueur.
-     *
-     * @param newX Nouvelle position X du joueur.
-     * @param newY Nouvelle position Y du joueur.
-     */
     public void setPosition(int newX, int newY) {
         this.positionX = newX;
         this.positionY = newY;
     }
 
-    /**
-     * Getter de l'identifiant du joueur.
-     *
-     * @return Identifiant du joueur.
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * Getter du pseudo du joueur.
-     *
-     * @return Pseudo du joueur.
-     */
     public String getPseudo() {
         return pseudo;
     }
 
-    /**
-     * Setter du pseudo du joueur.
-     *
-     * @param pseudo Nouveau pseudo du joueur.
-     */
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
-    }
-
-    /**
-     * Getter du score du joueur.
-     *
-     * @return Score du joueur.
-     */
     public int getScore() {
         return score;
-    }
-
-    /**
-     * Setter du score du joueur.
-     *
-     * @param score Nouveau score du joueur.
-     */
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    /**
-     * Incrémente le score du joueur.
-     *
-     * @param points Points à ajouter au score.
-     */
-    public void incrementerScore(int points) {
-        score += points;
     }
 
     /**

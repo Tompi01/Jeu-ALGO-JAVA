@@ -47,19 +47,22 @@ public class Jeu {
             Matrice.ajouterJoueur(matrice, joueur);
         }
 
+        // on selectionne au hasard le premier joueur
         Random random = new Random();
         int joueurCommenceIndex = random.nextInt(listeJoueurs.size());
         Joueur joueurCommence = listeJoueurs.get(joueurCommenceIndex);
 
-        System.out.println((joueurCommence.getPseudo()) + " (" + (joueurCommence.getId()-1) + ")" +" commence !");
-
+        //on lance la partie avec en parametre la matrice et le joueur qui commence
         boucleJeu(matrice, joueurCommence);
 
         // On affiche le vainqueur de la forme "Pseudo (id) à gagné"
-        System.out.println(listeJoueurs.get(0).getPseudo() + " (" + (listeJoueurs.get(0).getId()-1) + ")" +" à gagné");
-        gestionScore.mettreAJourScores(listeJoueurs.get(0).getPseudo(), true);
+        if (listeJoueurs.size() != 0){
+            System.out.println(listeJoueurs.get(0).getPseudo() + " (" + (listeJoueurs.get(0).getId()-1) + ")" +" à gagné");
+            gestionScore.mettreAJourScores(listeJoueurs.get(0).getPseudo(), true);
+            listeJoueurs.clear(); // On vide la liste des Joueurs en prévision d'une prochaine partie
+        }
 
-        listeJoueurs.clear(); // On vide la liste des Joueurs en prévision d'une prochaine partie
+
 
         afficherMenuFinPartie();
 
@@ -123,6 +126,9 @@ public class Jeu {
             }
             // Conditions de fin
             if (listeJoueurs.size() == 1) { // Si un seul joueur restant
+                break;
+            }else if (listeJoueurs.size() == 0){ //Si plus personnes en vie, en cas de match nul
+                System.out.println("Match nul, tout le monde perd 2 points");
                 break;
             }
 

@@ -174,7 +174,6 @@ public class cli {
         menu();
 
     }
-
         /**
          * Fonction pour lire un entier depuis l'entrée utilisateur.
          *
